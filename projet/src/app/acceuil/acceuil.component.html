@@ -1,0 +1,140 @@
+<div class="content-all">
+  <app-sidebar></app-sidebar> 
+<div class="contenu">
+    <div class="entete">
+        <div class="rech">
+            <input type="text" placeholder="recherche">
+        </div>
+        <div class="mode">
+            <i class="fas fa-bell"></i>
+            <div class="combined-icon">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+        <div class="profil">
+            <div class="textezone">
+              <img src="assets/images/profil.jpg" alt="">
+              <span><h3>Mody Barry</h3> <br> equipement</span>
+            </div>
+            <button><i class="fa-solid fa-circle-chevron-down"></i></button>
+        </div>
+    </div>
+    <div class="corps">
+        <div class="gauche">
+            <div class="gauche-left">
+                <div class="name">
+                    <p>Bonjour M Barry</p>
+                    <h6>Ayez une bonne journee</h6>
+                </div>
+                <div class="calendar">
+                    <mat-card class="demo-inline-calendar-card" >
+                    <mat-calendar [(selected)]="selected"></mat-calendar>
+                  </mat-card>
+                </div>
+            </div>
+            <div class="gauche-right">
+                <img src="/assets/images/danse.png" alt="">
+            </div>
+
+        </div>
+        <div class="droite">
+            <div class="title">
+                <h2>Evenements Recents</h2>
+            </div>
+            <div class="content1">
+                  <div class="part1">
+                    <img src="/assets/images/bob.png" alt="">
+                  </div>
+                  <div class="part2">
+                      <div class="nom-event">
+                          <h3>Soon to moon Festival Soon 2</h3>
+                      </div>
+                      <div class="detail-event">
+                          <div class="detail-gauche">
+                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
+                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
+                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
+                          </div>
+                          <div class="detail-droite">
+                              <button>Detail</button>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+            <div class="content2">
+                <div class="part1">
+                    <img src="/assets/images/bob.png" alt="">
+                  </div>
+                  <div class="part2">
+                      <div class="nom-event">
+                          <h3>Soon to moon Festival Soon 2</h3>
+                      </div>
+                      <div class="detail-event">
+                          <div class="detail-gauche">
+                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
+                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
+                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
+                          </div>
+                          <div class="detail-droite">
+                              <button>Detail</button>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+            <div class="content3">
+                <div class="part1">
+                    <img src="/assets/images/bob.png" alt="">
+                  </div>
+                  <div class="part2">
+                      <div class="nom-event">
+                          <h3>Soon to moon Festival Soon 2</h3>
+                      </div>
+                      <div class="detail-event">
+                          <div class="detail-gauche">
+                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
+                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
+                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
+                          </div>
+                          <div class="detail-droite">
+                              <button>Detail</button>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="fin">
+        <div class="left">
+             <div class="event-totale">
+                 <div class="icone">
+                    <img src="/assets/images/Today.png" alt="">
+                 </div>
+                 <div class="titre">
+                    <h4>Nombre total d evenement</h4>
+                 </div>
+                 <div class="nombres">
+                    <h3>1000</h3>
+                 </div>
+             </div>
+             <div class="reservation-totale">
+                <div class="icone">
+                    <img src="/assets/images/Group.png" alt="">
+                 </div>
+                 <div class="titre">
+                    <h4>Nombre total d evenement</h4>
+                 </div>
+                 <div class="nombres">
+                    <h3>1000</h3>
+                 </div>
+
+             </div>
+        </div>
+        <div class="right">
+            <div class="graphe">
+                <canvasjs-chart [options]="chartOptions" (chartInstance)="getChartInstance($event)"></canvasjs-chart>    
+            </div> 
+        </div>
+    </div>
+</div> 
+</div>

@@ -1,0 +1,134 @@
+<div class="Bigblock">
+        <div class="nav">
+            <div class="bloc1">
+                <div class="recherche">
+                    <input type="text" placeholder="recherche">
+                </div>
+                <!-- <div class="sombre">
+                    
+                </div> -->
+                <div class="profil">
+                    <div class="textezone">
+                        <img src="assets/images/profil.jpg" alt="">
+                        <span><h3>Mody Barry</h3> <br> Admini</span>
+                    </div>
+                        <button><i class="fa-solid fa-circle-chevron-down"></i></button>
+                    </div>
+                </div>
+            <div class="bloc2">
+                <div class="gauche">
+                    <span class="cherche">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Recherche">
+                    </span>
+                </div>
+                <div class="droite">
+                    <a (click)="afficher()"><i class="fa-solid fa-plus"></i><span>Ajouter Evenement</span></a>
+                </div>
+            </div>
+        
+        </div>
+
+        <div class="tableau">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nom</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+
+                </table>
+        </div>
+
+        <div class="ombre" *ngIf="visible">
+            <form action="">
+                <div class="btnFermer" (click)="cacher()"><i class="fa-solid fa-xmark"></i></div>
+                <h1>Ajouter un évévement</h1>
+                <div class="input">
+                    <div class="label">
+                        <label for="">Nom</label>
+                        <label for="">Nom de fammille</label>
+                        <label for="">Nom de fammille</label>
+                        <label for="">Nom de fammille</label>
+                        <label for="">Nom de fammille</label>
+                        <!-- <label for="">Nom de fammille</label> -->
+                        <label for="">description</label>
+                    </div>
+                    <div class="Entree">
+                        <input type="text" placeholder="Nom de l'évévement">
+                        <input type="text" placeholder="Nom de l'évévement">
+                        <input type="text" placeholder="Nom de l'évévement">
+                        <input type="text" placeholder="Nom de l'évévement">
+                        <input type="text" placeholder="Nom de l'évévement">
+                        <textarea name="" id="" ></textarea>
+                        <!-- <input type="text" placeholder="Nom de l'évévement"> -->
+                        <!-- <input type="text" placeholder="Nom de l'évévement"> -->
+                    </div>
+                </div>
+                <div class="btnAjouter"> <button>Ajouter</button></div>
+                
+            </form>
+        </div>
+</div>
+<!-- <router-outlet></router-outlet> -->

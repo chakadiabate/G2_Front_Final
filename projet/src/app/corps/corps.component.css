@@ -1,0 +1,13 @@
+.corps{
+    width: 77vw;
+    height: calc(100vh - 45px);
+    
+    padding: 20px;
+}
+
+/* .corps{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+} */
