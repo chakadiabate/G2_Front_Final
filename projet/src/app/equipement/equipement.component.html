@@ -1,0 +1,112 @@
+<div class="body">
+    <app-sidebar></app-sidebar>
+<div class="Bigblock">
+    <div class="nav">
+
+        <div class="bloc1">
+            <div class="recherche">
+                <span class="cherche">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Recherche">
+                </span>
+            </div>
+            
+                <div class="profil">
+                    <div class="textezone">
+                        <img src="assets/images/profil.jpg" alt="">
+                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                    </div>
+                        <span><i class="fa-solid fa-circle-chevron-down"></i></span>
+                </div>
+        </div>
+
+        <div class="bloc2">
+            
+                <h1>Liste des équipements</h1>
+            
+            <div class="droite">
+                <a (click)="afficher()"><i class="fa-solid fa-plus"></i><span>Ajouter Equipement</span></a>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="tableau">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Designation</th>
+                    <th>Date fin</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>Nom</td>
+                    <td>Designation</td>
+                    <td>Date fin</td>
+                    <td>
+                        <i style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                        <i style="color: red;" class="fa-solid fa-trash"></i>
+                    </td>
+                </tr>
+               
+            </table>
+    </div>
+
+
+
+    <div class="ombre" *ngIf="visible">
+        <form action="">
+            <div class="btnFermer" (click)="cacher()"><i class="fa-solid fa-xmark"></i></div>
+            <h1>Ajouter Equipement</h1>
+            <div class="input">
+                
+                <div class="Entree">
+                    <label for="">Nom</label>
+                    <input type="text" placeholder="Nom de l'évévement">
+                </div>
+                <div class="Entree">
+                    <label for="">Date de début</label>
+                    <input type="date" placeholder="Nom de l'évévement">
+                </div>
+                <div class="Entree">
+                    <label for="">Date de fin</label>
+                    <input type="date" placeholder="Nom de l'évévement">
+                </div>
+                <div class="Entree">
+                    <label for="">Lieu</label>
+                     <select name="" id="">
+                        <option value="">AZERTY</option>
+                        <option value="">QWERTY</option>
+                     </select>
+                </div>
+                <div class="Entree">
+                    <label for="">Type événement</label>
+                     <select name="" id="">
+                        <option value="">AZERTY</option>
+                        <option value="">QWERTY</option>
+                     </select>
+                </div>
+                <div class="Entree">
+                    <label for="">Cathégorie événement</label>
+                    <!-- <input type="text" placeholder="Nom de l'évévement"> -->
+                     <select name="" id="">
+                        <option value="">AZERTY</option>
+                        <option value="">QWERTY</option>
+                     </select>
+                </div>
+
+                <div class="Entree">
+                    <label for="">Description</label>
+                    <textarea name="" id=""></textarea>
+                </div>
+            </div>
+            
+            <div class="btnAjouter"> <button>Ajouter</button></div>
+            
+        </form>
+    </div>
+</div>
+<!-- <router-outlet></router-outlet> -->
+</div>
