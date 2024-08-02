@@ -1,0 +1,92 @@
+.body{
+    width: 98.8vw;
+    height: 100%;
+    display: flex;
+    border: solid var(--orange) 1px;
+    background-color: chocolate;
+}
+app-sidebar{
+    height:90vh ;
+    border: solid red 4px;
+}
+.bas{
+    width: 82vw;
+    height:100%;
+    background-color: var(--blancsalle);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: aqua;
+
+}
+.profil{
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+   /* align-items: center; */
+   background-color: brown;
+}
+.titre{
+    font-size: medium;
+}
+.tof{
+    width: 7vw;
+    height: 12vh;
+    background-color: var(--blue);
+    border-radius: 9px;
+}
+.formulaire{
+    height: 50%;
+    width: 100%;
+    background-color: burlywood;
+   
+}
+form{
+    display: flex;
+    flex-direction: row;
+    /* gap: 10px; */
+    background-color: chartreuse;
+}
+.label{
+    display: flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+}
+.label label{
+    margin: 10px;
+}
+.input input{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    width:25vw;
+    height: 5vh;
+    border-radius: 9px;
+    border: solid #c7c1c1 0.5px;
+    /* padding:3px; */
+    /* border: none; */
+    margin: 15px;
+}
+.formulaire label{
+    padding-right:2vw;
+}
+
+.buttons{
+   height: 15vh;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+}
+button{
+    width: 8vw;
+    height: 6vh;
+    border-radius: 9px;
+    background-color: var(--orange);
+    border: none;
+    color: var(--white);
+    font-size: medium;   
+}
+.btn1{
+    padding-right: 4vw;
+}

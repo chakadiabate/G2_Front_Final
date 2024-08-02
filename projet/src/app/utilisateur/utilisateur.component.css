@@ -440,4 +440,23 @@ form{
     border: none;
     background-color: var(--orange);
     font-size: medium;
+
 }
+
+
+
+
+
+
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-input.active {
+    background-color: #e0f7fa; /* Couleur de fond lorsque le champ est actif */
+  }
+  
+

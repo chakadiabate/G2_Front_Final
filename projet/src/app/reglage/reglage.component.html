@@ -1,1 +1,69 @@
-<p>reglage works!</p>
+
+<div class="body">
+    <app-sidebar></app-sidebar>
+<div class="bas">
+
+    <div class="container">
+        <h2>Modifier Profil</h2>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input id="nom" formControlName="nom" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="prenom">Prénom:</label>
+            <input id="prenom" formControlName="prenom" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" formControlName="email" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="telephone">Téléphone:</label>
+            <input id="telephone" formControlName="telephone" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="motDePasse">Mot de passe:</label>
+            <input id="motDePasse" type="password" formControlName="motDePasse" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        </form>
+      </div>
+
+      
+      
+    <div class="profil">
+        <div class="titre"><h3>Votre photo de profil</h3></div>
+        <div class="tof">
+
+        </div>
+        
+    </div>
+    <div class="formulaire">
+         <form action="">
+            <div class="label">
+                <label for="">Nom</label>
+                <label for="">Email</label>
+                <label for="">Nom d'utilisateur</label>
+                <label for="">Password</label>
+                <label for="">Nouveaux mot de passe</label>
+            </div>
+            <div class="input">
+                <input type="text" name="nom"> 
+                <input type="text" name="mail">
+                <input type="text" name="nom">
+                <input type="text" name="nom">
+                <input type="text" name="nom">
+            </div>           
+
+         </form>
+
+    </div>
+    <div class="buttons">
+          <div class="btn1"><button>Changer MDP</button></div>
+          <div class="btn2"><button>Deconnexion</button></div>
+    </div>
+
+</div>
+</div>
+
