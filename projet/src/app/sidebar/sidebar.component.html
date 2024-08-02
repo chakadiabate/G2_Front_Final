@@ -22,13 +22,14 @@
 
             <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL'"  routerLink="/reservation"><i class="fa-solid fa-money-bill"></i><span>Réservations</span></a>
 
-            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/evenement"><i class="fa-solid fa-list-check"></i><span>Task-list</span></a>
+            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/tasklist"><i class="fa-solid fa-list-check"></i><span>Task-list</span></a>
 
             <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/evenement" ><i class="fa-solid fa-gear"></i><span>Réglages</span></a> 
     </div>
     <div routerLink="" class="logout">
         <a><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a> 
     </div>
+    <router-outlet></router-outlet>
 </div>
 
             

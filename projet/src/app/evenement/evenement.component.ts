@@ -1,4 +1,3 @@
-
 import { NgFor, NgIf } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -9,11 +8,11 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
-import { EventServiceService } from '../S/event-service.service';
+import { EventServiceService } from '../Service/event-service.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { Evenement } from '../M/Evenement';
-import { MessageService } from 'primeng/api';
+import { Evenement } from '../Models/Evenement';
+// import { MessageService } from 'primeng/api';
 import {
   FormBuilder,
   FormGroup,
@@ -21,9 +20,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { category } from '../M/Category';
-import { TypeEvent } from '../M/TypeEvent';
-import { Utilisateur } from '../M/Utilisateur';
+import { category } from '../Models/Category';
+import { TypeEvent } from '../Models/TypeEvent';
+import { Utilisateur } from '../Models/Utilisateur';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -32,15 +31,15 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   standalone: true,
 
   imports: [
-    // NgIf,
-    // RouterOutlet,
-    // NgFor,
-    // CardModule,
-    // RouterModule,
-    // ReactiveFormsModule,
-    // FormsModule,
-    // ButtonModule,
-    // SidebarComponent
+      NgIf,
+      RouterOutlet,
+      NgFor,
+       CardModule,
+      RouterModule,
+      ReactiveFormsModule,
+      FormsModule,
+       ButtonModule,
+      SidebarComponent
   ],
 
 
@@ -67,7 +66,7 @@ export class EvenementComponent {
   constructor(
     private eventService: EventServiceService,
     private formbuilder: FormBuilder,
-    private messageservice: MessageService,
+    // private messageservice: MessageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {

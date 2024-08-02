@@ -24,6 +24,8 @@ import { AcceuilComponent } from "./acceuil/acceuil.component";
     AcceuilComponent
 ],
 
+
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

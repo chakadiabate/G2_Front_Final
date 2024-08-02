@@ -6,29 +6,28 @@
         <div class="bloc1">
             <div class="recherche">
                 <span class="cherche">
-
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input 
-                    type="text" 
-                    class="form-control search-input" 
-                    placeholder="Rechercher" 
-                    [(ngModel)]="searchText" 
-                    (ngModelChange)="filterUsers()"
-                    [class.active]="searchText.length > 0">
+                    <i (click)="onSearch()" class="fa-solid fa-magnifying-glass"></i>
+                    <input [(ngModel)]="searchQuery" placeholder="Rechercher un utilisateur">
                     <!-- <button (click)="onSearch()">Rechercher</button> -->
                 </span>
             </div>
-           
-                <div class="profil" *ngIf="currentUser">
+            
+                <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
-                        <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
-                        
+                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
                     </div>
-                    
-                        <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
+                        <span><i class="fa-solid fa-circle-chevron-down"></i></span>
                 </div>
-
+                <div *ngIf="utilisateurs.length > 0">
+                    <h3>Résultats de la recherche :</h3>
+                    <ul>
+                      <li *ngFor="let user of utilisateurs">{{ user.nom }}</li>
+                    </ul>
+                  </div>
+                  <div *ngIf="utilisateurs.length === 0 && searchQuery !== ''">
+                    <p>Aucun utilisateur trouvé.</p>
+                  </div>
         </div>
   
         <div class="bloc2">
@@ -36,9 +35,7 @@
                 <h1>Liste des Utilisateurs</h1>
             
             <div class="droite">
-
-                <a routerLink="/utilisateur" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Utilisateur</span></a>
-
+                <a (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Utilisateur</span></a>
             </div>
         </div>
     
@@ -56,9 +53,7 @@
                     <th>Action</th>
                 </tr>
             
-
-                <tr *ngFor="let user of filteredUtilisateurs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
-
+                <tr *ngFor="let user of utilisateurs">
                     <td>{{ user.id }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
@@ -67,22 +62,18 @@
                     <td>{{ user.role ? user.role.role : 'Non défini' }}</td>
                     <td>
                         <i  (click)="afficherEq()" (click)="editUser(user)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-
-                        <!--<i (click)="afficherSup()" *ngIf="user.id !== undefined" (click)="deleteUser(user.id)"  style="color: red;" class="fa-solid fa-trash"></i>-->
-                        <i  *ngIf="user.id !== undefined" (click)="deleteUser(user.id)"  style="color: red;" class="fa-solid fa-trash"></i>
+                        <i (click)="afficherSup()" *ngIf="user.id !== undefined" (click)="deleteUser(user.id)"  style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
+               
+               
             </table>
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
-
     </div>
   
   
   
     <div class="ombre" *ngIf="visibleEq">
-
-        <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()" >
-
+        <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()">
             <div class="btnFermer" (click)="cacherEq()"><i class="fa-solid fa-xmark"></i></div>
             <h1>{{ isEditing ? 'Modifier Utilisateur' : 'Ajouter Utilisateur' }}</h1>
             <div class="input">
@@ -113,9 +104,7 @@
                     </select>
                 </div>
             </div>
-
-            <button  type="submit" class="btnAjouter" (click)="cacherEq()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
-
+            <button type="submit" class="btnAjouter">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
         </form>
     </div>
 

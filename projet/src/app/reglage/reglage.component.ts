@@ -20,7 +20,7 @@ import { AuthService } from '../Service/auth.service';
     RouterLink,
     NgIf,
     SidebarComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './reglage.component.html',
   styleUrl: './reglage.component.css'

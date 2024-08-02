@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';  // Importer SweetAlert2
     RouterOutlet,
     RouterLink,
     RouterModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -31,10 +31,10 @@ export class LoginComponent {
   login() {
     this.authService.authenticate(this.email, this.password).subscribe({
       next: (user: any) => {
-        console.log('je suis dans login', user);
+        console.log('je suis dans login', user.role.role);
         // Redirige en fonction du rôle de l'utilisateur
         if (user) {
-          console.log('je suis avant====', user.role);
+          console.log('je suis avant====', user.role.role);
 
           // Afficher un message de bienvenue avec SweetAlert2
           Swal.fire({

@@ -27,9 +27,7 @@ export class UtilisateurServiceService {
     });
   }
 
-  getCurrentUser(): Observable<Utilisateur> {
-    return this.http.get<Utilisateur>(`${this.baseUrl}/currentSession`);
-  }
+ 
 
   
 

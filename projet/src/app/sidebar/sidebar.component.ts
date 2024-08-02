@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
@@ -11,7 +11,7 @@ import { AuthService } from '../Service/auth.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
  
 
   constructor(private authService: AuthService) {}
@@ -29,8 +29,8 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.authService.userRole$.subscribe(role => {
-      this.role = localStorage.getItem("userRole");
-      console.log('je suis admin sidebar', localStorage.getItem("userRole"));
+      this.role = sessionStorage.getItem("userRole");
+      console.log('je suis admin sidebar', this.role);
     });
   }
 
