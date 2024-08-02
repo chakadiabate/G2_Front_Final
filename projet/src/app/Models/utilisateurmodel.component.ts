@@ -17,6 +17,7 @@ export interface Role {
 }
 
 
+
 export interface Reservation {
   id: number;
   date_res:Date;
@@ -77,3 +78,4 @@ export interface Task{
   priority_id:priority_task;
   user_id:Utilisateur
 }
+
