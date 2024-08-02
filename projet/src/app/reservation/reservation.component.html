@@ -14,9 +14,11 @@
                 <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
+
                         <span><h3>Mody Barry</h3> <br> Administrateur</span>
                     </div>
-                        <span><i class="fa-solid fa-circle-chevron-down"></i></span>
+                    <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
+
                 </div>
         </div>
   
@@ -32,21 +34,29 @@
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>Nom</th>
-                    <th>Designation</th>
-                    <th>Date fin</th>
+
+                    <th>Date</th>
+                    <th>Categories</th>
+                    <th>Evenement</th>
+                    <th>Methode_Paie</th>
+                    <th>Statut</th>
+                    <th>Users</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>ID</td>
-                    <td>Nom</td>
-                    <td>Designation</td>
-                    <td>Date fin</td>
-                    <td>
-                        <i (click)="afficher()"  style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-                        <i (click)="afficherSup()"  style="color: red;" class="fa-solid fa-trash"></i>
+                <tr *ngFor="let res of reservation">
+                    <td>{{ res.id }}</td>
+                     <td>{{ res.date_res }}</td>
+                     <td>{{ res.category.category }}</td>
+                     <td>{{ res.evenement.nom }}</td>
+                     <td>{{ res.methodePaiement.methodepaie }}</td>
+                     <td>{{ res.statut.statut}}</td>
+                     <td>{{ res.utilisateur.nom}}</td>
+                     <td>
+                        <i   style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                        <i (click)="afficherSup()" *ngIf="res.id !== undefined"  style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
-                </tr>
+                  </tr>
+
                
             </table>
     </div>
