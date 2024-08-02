@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from "@angular/common";
-import { LieuService } from "../Service/Lieu.service";
-import { HttpClient } from "@angular/common/http";
+import  {LieuService} from "../Lieu.service";
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Lieu } from '../Models/utilisateurmodel.component';
+import {Lieu} from "../Models/lieu.model";
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
