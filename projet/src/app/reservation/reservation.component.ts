@@ -1,12 +1,16 @@
 import { NgForOf, NgIf } from '@angular/common';
 import { Component,OnInit } from '@angular/core';
+
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { UtilisateurServiceService } from '../Service/utilisateur.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+
 import { ReservationService } from '../Service/reservation.service';
 import { Reservation } from '../Models/utilisateurmodel.component';
+
 
 
 @Component({
@@ -18,12 +22,15 @@ import { Reservation } from '../Models/utilisateurmodel.component';
     RouterOutlet,
     HttpClientModule,
     FormsModule,
+
     SidebarComponent,
     RouterLink
+
 ],
   templateUrl: './reservation.component.html',
   styleUrl: './reservation.component.css'
 })
+
 
 export class ReservationComponent  implements OnInit{
    
@@ -63,6 +70,7 @@ export class ReservationComponent  implements OnInit{
  
 
  
+
    visible = false;
    visibleSup = false;
 

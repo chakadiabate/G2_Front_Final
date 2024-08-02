@@ -1,0 +1,47 @@
+
+<body>
+    <div >
+        <div >
+            <div >
+                <div class="card">
+                    <div class="card-header">
+                        <h2>{{ isEditMode ? 'Edit Prestateur' : 'Add Prestateur' }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <form (ngSubmit)="savePrestateur()">
+                            <div class="form-group">
+                                <label for="nom">Nom</label>
+                                <input type="text" id="nom" class="form-control" [(ngModel)]="prestateur.nom" name="nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" [(ngModel)]="prestateur.email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile">Profile Prestateur</label>
+                                <input type="text" id="profile" class="form-control" [(ngModel)]="prestateur.profile" name="profile" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telephone">Telephone</label>
+                                <input type="tel" id="telephone" class="form-control" [(ngModel)]="prestateur.telephone" name="telephone" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="tel" id="description" class="form-control" [(ngModel)]="prestateur.description" name="description" required>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="gestionnaire">Gestionnaire</label>
+                                <input type="tel" id="gestionnaire" class="form-control" [(ngModel)]="prestateur.gestionnaireId" name="gestionnaire" required>
+                            </div> -->
+                            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Save' }}</button>
+                            <a [routerLink]="['/prestateurs']" class="btn btn-secondary ml-2 btn-cancel">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
