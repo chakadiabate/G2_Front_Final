@@ -27,7 +27,7 @@ export class AuthService {
         if (user) {
           // Stocker le token d'authentification et le rôle de l'utilisateur
           sessionStorage.setItem('authToken', authHeader);
-          this.userRoleSubject.next(user.role.role);
+          this.storeUserRole(user.role.role);
           console.log('Authentification réussie, rôle:', user.role.role);
         }
         return user;
@@ -51,8 +51,7 @@ export class AuthService {
     return this.http.get<any>(`${this.baseUrl}/gestEvent/user/currentSession`, { headers });
   }
 
-
-  // Méthode pour stocker le rôle de l'utilisateur dans le stockage local
+  // Méthode pour stocker le rôle de l'utilisateur dans le stockage de session
   private storeUserRole(role: string): void {
     sessionStorage.setItem('userRole', role);
     this.userRoleSubject.next(role);
@@ -63,7 +62,6 @@ export class AuthService {
     return sessionStorage.getItem('userRole');
   }
 
-
   // Méthode pour déconnecter l'utilisateur
   public logout(): void {
     sessionStorage.removeItem('authToken');
@@ -71,5 +69,4 @@ export class AuthService {
     this.userRoleSubject.next(null);
     console.log('Déconnecté');
   }
-
 }

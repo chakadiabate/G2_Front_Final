@@ -1,9 +1,10 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -11,13 +12,12 @@ import { AuthService } from '../Service/auth.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
-export class SidebarComponent implements OnInit{
- 
 
-  constructor(private authService: AuthService) {}
+export class SidebarComponent {
+
+  constructor(private authService: AuthService, private router: Router) {}
   visible = false;
   role: string | null = null;
-
 
   Affiche() {
     if (this.visible === false) {
@@ -34,5 +34,8 @@ export class SidebarComponent implements OnInit{
     });
   }
 
-
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']); // Redirige vers la page de connexion
+  }
 }
