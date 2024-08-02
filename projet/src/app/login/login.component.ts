@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
+
 import Swal from 'sweetalert2';  // Importer SweetAlert2
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+
     RouterOutlet,
     RouterLink,
     RouterModule,
@@ -15,11 +18,13 @@ import Swal from 'sweetalert2';  // Importer SweetAlert2
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
+
 })
 export class LoginComponent {
 
   email: string = '';
   password: string = '';
+
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -68,5 +73,6 @@ export class LoginComponent {
   getCurrentUser() {
     const user = localStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
+
   }
 }

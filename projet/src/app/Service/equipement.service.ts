@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class EquipementService {
 
+
   private baseUrl =  "http://localhost:8080/gestEvent/Equipement";
+
 
   constructor(private http: HttpClient) { }
 

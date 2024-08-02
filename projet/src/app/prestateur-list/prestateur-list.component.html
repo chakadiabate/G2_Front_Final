@@ -1,0 +1,68 @@
+<div class="body">
+  <app-sidebar></app-sidebar>
+  <div class="Bigblock">
+    <div class="nav">
+      <div class="bloc1">
+              <div class="recherche">
+               <span class="cherche">
+                   <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Recherche">
+                </span>
+              </div>
+        
+              <div class="profil">
+                <div class="textezone">
+                    <img src="assets/images/profil.jpg" alt="">
+                    <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                </div>
+                    <span><i class="fa-solid fa-circle-chevron-down"></i></span>
+               </div>
+          </div>
+
+       
+          <div class="bloc2">     
+            <h1>Liste des Prestateurs</h1>
+            <div class="droite">
+                  <div><span class="ecart"></span></div>
+                  <a routerLink="/add-prestateur"><i class="fa-solid fa-plus"></i><span>Ajouter Prestateur</span></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tableau">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Profile</th>
+            <th>Telephone</th>
+            <th>Description/th>
+            <th>User</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prestateur of prestateurs">
+            <td>{{ prestateur.id }}</td>
+            <td>{{ prestateur.nom }}</td>
+            <td>{{ prestateur.email }}</td>
+            <td>{{ prestateur.profile }}</td>
+            <td>{{ prestateur.telephone }}</td>
+            <td>{{ prestateur.description }}</td>
+            <td><div *ngIf="currentUser">
+              <h6>Bonjour, {{ currentUser.prenom }} {{ currentUser.nom }}!</h6>
+              <p>Email: {{ currentUser.email }}</p>
+              <!-- Ajoutez d'autres champs selon votre modèle d'utilisateur -->
+            </div></td>
+            <td>
+              <a [routerLink]="['/edit-prestateur', prestateur.id]"><i class="fas fa-edit"></i></a>
+              <a (click)="deletePrestateur(prestateur.id)" class="btn btn-danger btn-sm"> <i style="color: red;" class="fa-solid fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

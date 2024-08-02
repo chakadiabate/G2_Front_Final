@@ -1,3 +1,4 @@
+
 import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -8,9 +9,11 @@ import { UtilisateurServiceService } from '../Service/utilisateur.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../Service/auth.service';
 
+
 @Component({
   selector: 'app-reglage',
   standalone: true,
+
   imports: 
   [
     RouterOutlet,
@@ -84,4 +87,5 @@ export class ReglageComponent implements OnInit{
       });
     }
   }
+
 }

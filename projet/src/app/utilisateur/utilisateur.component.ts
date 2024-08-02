@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Role, Utilisateur } from '../Models/utilisateurmodel.component';
 import { RoleService } from '../Service/role.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../Service/auth.service';
@@ -18,6 +19,7 @@ import Swal from 'sweetalert2';
   imports: [
     NgIf,
     NgForOf,
+
     RouterLink,
     RouterOutlet,
     FormsModule,
@@ -25,6 +27,7 @@ import Swal from 'sweetalert2';
     ReactiveFormsModule,
     SidebarComponent,
     NgxPaginationModule
+
 ],
   templateUrl: './utilisateur.component.html',
   styleUrl: './utilisateur.component.css'
@@ -33,6 +36,7 @@ export class UtilisateurComponent implements OnInit{
   
   utilisateurForm: FormGroup;
   utilisateurs: Utilisateur[] = [];
+
   filteredUtilisateurs: Utilisateur[] = [];
   roles: Role[] = [];
   isEditing = false;
@@ -47,6 +51,7 @@ export class UtilisateurComponent implements OnInit{
     private utilisateurService: UtilisateurServiceService,
     private roleservice: RoleService,
     private authservice: AuthService,
+
     private fb: FormBuilder
   ) {
     this.utilisateurForm = this.fb.group({
@@ -60,6 +65,7 @@ export class UtilisateurComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     this.authservice.getCurrentUser().subscribe({
       next: (data) => {
         this.currentUser = data;
@@ -68,9 +74,11 @@ export class UtilisateurComponent implements OnInit{
         console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
       }
     });
+
     this.getAllUsers();
     this.getAllRoles();
   }
+
 
 
   getAllUsers(): void {
@@ -80,6 +88,7 @@ export class UtilisateurComponent implements OnInit{
         console.log(data);
         this.filteredUtilisateurs = data; // Initialiser les utilisateurs filtrés
       },
+
       error => console.error(error)
     );
   }
@@ -94,7 +103,18 @@ export class UtilisateurComponent implements OnInit{
         console.error('Error fetching roles:', error);
       }
     );
+
+  
   }
+
+
+  rolest(){
+    this.utilisateurService.getRoles().subscribe((data)=>{
+      this.roless= data;
+      console.log(data)
+    })
+  }
+
 
   onSubmit(): void {
     if (this.isEditing && this.currentUserId !== null) {
@@ -157,6 +177,29 @@ export class UtilisateurComponent implements OnInit{
   }
 
   //=====Fin de cette logique ====================
+
+      this.addUser();
+    }
+  }
+
+  addUser(): void {
+    const newUser: Utilisateur = this.utilisateurForm.value;
+    newUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+    this.utilisateurService.createUser(newUser).subscribe({
+      next: (data) => {
+        this.utilisateurs.push(data);
+        this.utilisateurForm.reset();
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        console.log('User creation complete');
+      }
+    });
+  }
+  
+
   
   editUser(user: Utilisateur): void {
     this.isEditing = true;
@@ -164,6 +207,7 @@ export class UtilisateurComponent implements OnInit{
     this.utilisateurForm.patchValue({
       ...user,
       roleId: user.role?.id
+
     });
   }
 
@@ -176,6 +220,7 @@ export class UtilisateurComponent implements OnInit{
           const index = this.utilisateurs.findIndex(u => u.id === this.currentUserId);
           if (index !== -1) {
             this.utilisateurs[index] = data;
+
             this.filteredUtilisateurs[index] = data; // Mettez à jour aussi la liste filtrée
           }
           this.utilisateurForm.reset();
@@ -234,7 +279,6 @@ export class UtilisateurComponent implements OnInit{
     );
     this.p = 1; // Reset to first page on filter change
   }
-
 
 
   visible = false;

@@ -52,8 +52,6 @@ export class AuthService {
   }
 
 
-  
-
   // Méthode pour stocker le rôle de l'utilisateur dans le stockage local
   private storeUserRole(role: string): void {
     localStorage.setItem('userRole', role);
@@ -72,4 +70,4 @@ export class AuthService {
     this.userRoleSubject.next(null);
     console.log('Déconnecté');
   }
-}
+

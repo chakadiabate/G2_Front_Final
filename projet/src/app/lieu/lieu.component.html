@@ -1,0 +1,92 @@
+<div class="body">
+  <app-sidebar></app-sidebar>
+<div class="Bigblock">
+  <div class="nav">
+
+      <div class="bloc1">
+          <div class="recherche">
+              <span class="cherche">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" placeholder="Recherche">
+              </span>
+          </div>
+          
+              <div class="profil">
+                  <div class="textezone">
+                      <img src="assets/images/profil.jpg" alt="">
+                      <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                  </div>
+                  <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
+              </div>
+      </div>
+
+      <div class="bloc2">
+          
+              <h1>Liste des Lieux</h1>
+          
+          <div class="droite">
+              <a (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Lieu</span></a>
+          </div>
+      </div>
+  
+  </div>
+
+  <div class="tableau">
+          <table>
+              <tr>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Addresse</th>
+                  <th>Salle</th>
+                  <th>Capacite</th>
+                  <th>Action</th>
+              </tr>
+              <tr *ngFor="let lieu of filteredLieu | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                <td>{{ lieu.id }}</td>
+                <td>{{lieu.nom}}</td>
+                <td>{{lieu.adresse}}</td>
+                <td>{{lieu.salle}}</td>
+                <td>{{lieu.capacite}}</td>
+                <td>
+                    <i  (click)="afficherEq()" (click)="editLieu(lieu)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                    <i (click)="afficherSup()" *ngIf="lieu.id !== undefined" (click)="deleteLieu(lieu.id)"  style="color: red;" class="fa-solid fa-trash"></i>
+                </td>
+            </tr>
+             
+          </table>
+  </div>
+
+
+
+  <div class="ombre" *ngIf="visibleEq">
+      <form [formGroup]="lieuForm" (ngSubmit)="onSubmit()">
+          <div class="btnFermer" (click)="cacherEq()"><i class="fa-solid fa-xmark"></i></div>
+          <h1>{{ isEditing ? 'Modifier Lieu' : 'Ajouter Lieu' }}</h1>
+          <div class="input">
+              
+              <div class="Entree">
+                  <label for="">Nom</label>
+                  <input type="text" placeholder="Nom du lieu" formControlName="nom">
+              </div>
+              <div class="Entree">
+                  <label for=""> Adresse</label>
+                  <input type="text" placeholder="Adresse du lieu" formControlName="adresse">
+              </div>
+              <div class="Entree">
+                  <label for="">Salle</label>
+                  <input type="text" placeholder="Salle " formControlName="salle">
+              </div>
+              <div class="Entree">
+                  <label for="">Capacite</label>
+                  <input type="text" placeholder="Capacite " formControlName="capacite">
+              </div>
+              
+          </div>
+          
+          <div class="btnAjouter"> <button (click)="cacherEq()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
+          
+      </form>
+  </div>
+</div>
+<!-- <router-outlet></router-outlet> -->
+</div>

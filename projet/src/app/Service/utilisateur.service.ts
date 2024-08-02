@@ -1,4 +1,6 @@
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role, Utilisateur } from '../Models/utilisateurmodel.component';
@@ -8,6 +10,7 @@ import { Role, Utilisateur } from '../Models/utilisateurmodel.component';
   providedIn: 'root'
 })
 export class UtilisateurServiceService {
+
   private baseUrl = 'http://localhost:8080/gestEvent/user';
   
   constructor(private http: HttpClient) {}
@@ -44,6 +47,7 @@ export class UtilisateurServiceService {
   createPerso(utilisateur: Utilisateur): Observable<Utilisateur> {
     return this.http.post<Utilisateur>(`${this.baseUrl}/CreerGest`, utilisateur);
   }
+
   updateUser(id: number, utilisateur: Utilisateur): Observable<Utilisateur> {
     return this.http.put<Utilisateur>(`${this.baseUrl}/UpdateUser/${id}`, utilisateur);
   }
@@ -65,9 +69,18 @@ export class UtilisateurServiceService {
   }
 
   getRoles(){
+
     return this.http.get('http://localhost:8080/gestEvent/role/listeRole');
+
   }
   searchUsers(name: string): Observable<Utilisateur[]> {
     return this.http.get<Utilisateur[]>(`${this.baseUrl}/TriParNom`, { params: { name } });
   }
+
+
+  getCurrentUser(): Observable<Utilisateur> {
+    return this.http.get<Utilisateur>(`${this.baseUrl}/currentSession`);
+  }
+
+
 }
