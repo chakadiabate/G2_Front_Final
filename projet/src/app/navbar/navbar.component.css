@@ -1,0 +1,238 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+.Bigblock{
+    width: calc(100vw - 18vw);
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.nav{
+    width: 80vw;
+    height: 35%;
+    background-color: #ed6414;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+.bloc1 , .bloc2{
+    width: 90%;
+    height: 70px;
+    border-radius: 10px;
+}
+.bloc1{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.recherche {
+    background-color: transparent;
+}
+.recherche input{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 0px;
+    font-size: 1.1rem;
+    padding-left: 10px;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.485);
+}
+.sombre{
+    background-color: aliceblue;
+    height: 100%;
+    border-radius: 10px;
+}
+.profil{
+    height: 80%;
+    padding: 5px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+.profil, .sombre{
+    width: 25%;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.356);
+}
+.profil img{
+    width: 60px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+.profil .textezone{
+    height: 100%;
+    display: flex;
+    line-height: 1px;
+}
+
+.profil button{
+    border: none;
+    background-color: transparent;
+    /* margin-right: 10px; */
+    font-size: 1.2rem;
+}
+
+
+
+.bloc2{
+    width: 90%;
+    background-color: white;
+    height: 70px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px ;
+    flex-wrap: wrap;
+}
+.cherche{
+    position: relative;
+    display: flex;
+    font-size: 1.2rem;
+}
+.cherche input{
+    width: 300px;
+    padding: 10px 5px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 2px 1px 6px rgba(0, 0, 0, 0.308);
+    text-align: center;
+    z-index: 1;
+    font-size: 1.2rem;
+}
+.cherche input:focus{
+    border: none;
+}
+.cherche i{
+  position: absolute;
+  left: 10px; 
+  top: 13px;
+  z-index: 2; 
+  color: rgba(0, 0, 0, 0.527);
+}
+
+
+.bloc2 .droite a{   
+    text-decoration: none;
+    padding: 15px 15px;
+    border-radius: 10px;
+    background-color: #ed6414;
+    color: white;
+}
+.bloc2 .droite a:hover{   
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.555);
+    cursor: pointer;
+}
+.bloc2 .droite a i{   
+    margin-right: 8px;
+}
+
+
+.tableau{
+    height: 60%;
+    margin: 0 auto;
+    overflow-y: scroll;
+    border-radius: 10px;
+    /* box-shadow: -10px 10px 6px rgba(0, 0, 0, 0.295); */
+    /* display: flex; */
+    /* align-items: flex-start; */
+    
+}
+.tableau::-webkit-scrollbar{
+    display: none;
+}
+.tableau table{
+    background-color: white;
+    width: 79vw;
+    text-align: center;
+    border-collapse: collapse;
+    box-shadow: inset  0 -5px 6px rgba(0, 0, 0, 0.5);
+}
+.tableau table tr,th,td{
+    height: 50px;
+}
+.tableau table td{
+    border: none;
+    border-collapse: collapse;
+}
+.tableau table tr:nth-child(even){
+    background-color: rgba(122, 121, 121, 0.096);
+}
+.ombre{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.747);
+    z-index: 4;
+    /* backdrop-filter: blur(4px); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out;
+}
+
+form{
+    background-color: white;
+    width: 50%;
+    height: 90%;
+    border-radius: 10px;
+    box-shadow: 2px 2px 20px #ed6414;
+    padding: 5px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    text-align: center;
+}
+.btnFermer{
+    display: flex;
+    justify-content: flex-end;
+}
+.btnFermer i{
+    width: 10px;
+    height: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ed6414;
+    border-radius: 50%;
+    color: white;
+}
+.btnFermer i:hover{
+    cursor: pointer;
+    box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.39);
+}
+.input{
+    display: flex;
+    /* height: 80%; */
+    justify-content: space-around;
+}
+.input > .Entree, .label{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20px;
+}
+.Entree{
+    width: 70%;
+}
+.Entree input{
+    border: 1px solid rgba(0, 0, 0, 0.336);
+    padding: 8px 5px;
+    border-radius: 5px;
+    /* box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.39); */
+}
+.label{
+    text-align: left;
+}
+
+.btnAjouter{
+    position: relative;
+    
+    display: flex;
+    justify-content: flex-end;
+}

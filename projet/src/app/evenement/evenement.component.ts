@@ -1,3 +1,4 @@
+
 import { NgFor, NgIf } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -23,11 +24,13 @@ import {
 import { category } from '../M/Category';
 import { TypeEvent } from '../M/TypeEvent';
 import { Utilisateur } from '../M/Utilisateur';
+
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-evenement',
   standalone: true,
+
   imports: [
     // NgIf,
     // RouterOutlet,
@@ -40,11 +43,13 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
     // SidebarComponent
   ],
 
+
   templateUrl: './evenement.component.html',
   styleUrl: './evenement.component.css',
 })
 export class EvenementComponent {
   visible = false;
+
   sup = false;
   catpop = false;
   typepop = false;
@@ -280,9 +285,11 @@ export class EvenementComponent {
     this.typepop = !this.typepop;
   }
 
+
   afficher() {
     this.visible = true;
   }
+
 
   cacher() {
     this.visible = false;
@@ -294,4 +301,5 @@ export class EvenementComponent {
   CSup() {
     this.sup = false;
   }
+
 }
