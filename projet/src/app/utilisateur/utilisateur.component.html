@@ -6,7 +6,6 @@
         <div class="bloc1">
             <div class="recherche">
                 <span class="cherche">
-
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input 
                     type="text" 
@@ -28,7 +27,6 @@
                     
                         <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
                 </div>
-
         </div>
   
         <div class="bloc2">
@@ -36,9 +34,7 @@
                 <h1>Liste des Utilisateurs</h1>
             
             <div class="droite">
-
                 <a routerLink="/utilisateur" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Utilisateur</span></a>
-
             </div>
         </div>
     
@@ -56,9 +52,7 @@
                     <th>Action</th>
                 </tr>
             
-
                 <tr *ngFor="let user of filteredUtilisateurs | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
-
                     <td>{{ user.id }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
@@ -67,22 +61,18 @@
                     <td>{{ user.role ? user.role.role : 'Non défini' }}</td>
                     <td>
                         <i  (click)="afficherEq()" (click)="editUser(user)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-
                         <!--<i (click)="afficherSup()" *ngIf="user.id !== undefined" (click)="deleteUser(user.id)"  style="color: red;" class="fa-solid fa-trash"></i>-->
                         <i  *ngIf="user.id !== undefined" (click)="deleteUser(user.id)"  style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
             </table>
             <pagination-controls (pageChange)="p = $event"></pagination-controls>
-
     </div>
   
   
   
     <div class="ombre" *ngIf="visibleEq">
-
         <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()" >
-
             <div class="btnFermer" (click)="cacherEq()"><i class="fa-solid fa-xmark"></i></div>
             <h1>{{ isEditing ? 'Modifier Utilisateur' : 'Ajouter Utilisateur' }}</h1>
             <div class="input">
@@ -113,9 +103,7 @@
                     </select>
                 </div>
             </div>
-
-            <button  type="submit" class="btnAjouter" (click)="cacherEq()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
-
+           <div class="btnAjouter" > <button  type="submit" (click)="cacherEq()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
         </form>
     </div>
 

@@ -1,36 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Equipement } from '../Models/utilisateurmodel.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EquipementService {
 
-
-  private baseUrl =  "http://localhost:8080/gestEvent/Equipement";
-
+  private baseUrl =  "http://localhost:8080/gestEvent/equipements";
 
   constructor(private http: HttpClient) { }
 
-  getEquipementById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/Afficher/${id}`);
+  getEquipementById(id: number): Observable<Equipement> {
+    return this.http.get<Equipement>(`${this.baseUrl}/Afficher/${id}`);
   }
 
-  getAllEquipement(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}`);
+  getAllEquipement(): Observable<Equipement[]> {
+    return this.http.get<Equipement[]>(`${this.baseUrl}/listEquipements`);
   }
 
-  createEquipement(Equipement: object){
-    return this.http.post<object>(`${this.baseUrl}/Ajouter`, Equipement);
+  createEquipement(Equipement: Equipement){
+    return this.http.post<Equipement>(`${this.baseUrl}/Ajouter`, Equipement);
   }
 
-  updateEquipement(id: number, Equipement:Object): Observable<Object> {
-    return this.http.put<Object>(`${this.baseUrl}/update/{id}`, Equipement);
+  updateEquipement(id: number, Equipement:Equipement): Observable<Equipement> {
+    return this.http.put<Equipement>(`${this.baseUrl}/update/{id}`, Equipement);
   }
 
-  deleteEquipement(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/delete/{id}`);
+  deleteEquipement(id: number): Observable<Equipement> {
+    return this.http.delete<Equipement>(`${this.baseUrl}/delete/{id}`);
   }
 
 

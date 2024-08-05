@@ -1,14 +1,11 @@
 .body{
-    width: 99.8vw;
-    height: 100%;
+    width: 100%;
+    height: 100vh;
     display: flex;
 }
-app-sidebar{
-    height:90vh ;
-}
 .bas{
-    width: 82vw;
-    height:100%;
+    width: 100%;
+    height: 75vh;
     background-color: var(--blancsalle);
     border-radius: 9px;
     display: flex;
@@ -21,7 +18,6 @@ app-sidebar{
     display: flex;
     flex-direction: column;
    /* align-items: center; */
-   background-color: brown;
 }
 .titre{
     font-size: medium;
@@ -33,19 +29,16 @@ app-sidebar{
     border-radius: 9px;
 }
 .formulaire{
+    padding-left:30%;
     height: 50%;
     width: 100%;
- 
+    
+   
 }
 form{
     display: flex;
-    flex-direction: column;
-    /* gap: 10px; */
-    align-items: center;
-}
-.entrees{
-    display: flex;
     flex-direction: row;
+    /* gap: 10px; */
 }
 .label{
     display: flex;
@@ -59,8 +52,8 @@ form{
     display: flex;
     flex-direction:column;
     justify-content: space-between;
-    width:25vw;
-    height: 5vh;
+    width:35vw;
+    height: 4vh;
     border-radius: 9px;
     border: solid #c7c1c1 0.5px;
     /* padding:3px; */
@@ -75,8 +68,7 @@ form{
    height: 15vh;
    display: flex;
    flex-direction: row;
-   margin-left: 12%;
-   margin-top: 2%;
+   justify-content: center;
 }
 button{
     width: 8vw;

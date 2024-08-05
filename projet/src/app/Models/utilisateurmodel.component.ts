@@ -17,7 +17,6 @@ export interface Role {
 }
 
 
-
 export interface Reservation {
   id: number;
   date_res:Date;
@@ -43,8 +42,7 @@ export interface Evenement{
   nombre_place:number,
   categories_id:Categorie_event,
   type_event_id:Type_event,
-  users_id:Utilisateur,
-
+  
 }
 
 export interface Methode_paiement {
@@ -64,7 +62,6 @@ export interface Type_event{
 export interface Categorie_Billet{
   id: number;
   category: string
-
 }
 
 export interface priority_task{
@@ -80,5 +77,30 @@ export interface Task{
   priority_id:priority_task;
   user_id:Utilisateur
 }
+export interface Lieu{
 
-
+  id?:number;
+  nom:string;
+  adresse:string;
+  salle:string;
+  capacite:number
+}
+export interface Prestateur{
+  id?:number;
+  nom_presta:string;
+  email:string;
+  tel:number;
+  profile:string;
+  utilisateur:Utilisateur;
+  rolePrestateur:RolePrestateur
+}
+export interface RolePrestateur{
+  id?:number;
+  role:string;
+}
+export interface Equipement{
+  id?:number;
+  nom:string;
+  description:string;
+  presta:Prestateur;
+}

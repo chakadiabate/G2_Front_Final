@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
-import { Evenement, priority_task, Task, Utilisateur } from '../Models/utilisateurmodel.component';
+import { Evenement,priority_task,Task,Utilisateur } from '../Models/utilisateurmodel.component';
 import { FormBuilder,  FormGroup,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasklistService } from '../Service/tasklist.service';
+
 
 
 @Component({
@@ -19,8 +20,6 @@ import { TasklistService } from '../Service/tasklist.service';
     RouterLink,
     SidebarComponent,
     ReactiveFormsModule
-    
-  
 
   ],
   templateUrl: './tasklist.component.html',
@@ -31,7 +30,7 @@ export class TasklistComponent implements OnInit{
   taskForm: FormGroup;
   tasks : Task[] = [];
   Even: Evenement[] = [];
-  Priorite: priority_task[] = [];
+  Priorite: priority_task  [] = [];
   Uti: Utilisateur[] = [];
   isEditing = false;
 

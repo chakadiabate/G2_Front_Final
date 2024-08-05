@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 
@@ -17,7 +17,8 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
     MatCardModule,
     CommonModule,
     CanvasJSAngularChartsModule,
-    SidebarComponent
+    SidebarComponent,
+	RouterLink
 ],
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,

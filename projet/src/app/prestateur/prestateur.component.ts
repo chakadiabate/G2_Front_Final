@@ -1,57 +1,140 @@
-// Importation des modules nécessaires d'Angular
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgForOf, NgIf } from '@angular/common';
+import { Prestateur, RolePrestateur, Utilisateur } from '../Models/utilisateurmodel.component';
 import { PrestateurService } from '../Service/prestateur.service';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { UtilisateurServiceService } from '../Service/utilisateur.service';
 
-// Déclaration du composant Angular
 @Component({
-  standalone: true, // Indique que ce composant est autonome et peut être utilisé sans module Angular traditionnel
-  selector: 'app-prestateur', // Nom du sélecteur HTML pour ce composant
-  templateUrl: './prestateur.component.html', // URL du fichier template HTML
-  styleUrls: ['./prestateur.component.css'], // URL du fichier CSS de style pour ce composant
-  imports: [CommonModule, FormsModule, RouterLink] // Modules nécessaires pour ce composant : CommonModule pour les directives Angular de base, FormsModule pour la gestion des formulaires, et RouterLink pour les liens de navigation
+  selector: 'app-prestateur',
+  standalone: true,
+  imports: 
+  [
+    NgIf,
+    NgForOf,
+    RouterOutlet,
+    RouterLink,
+    SidebarComponent,
+    ReactiveFormsModule
+  ],
+  templateUrl: './prestateur.component.html',
+  styleUrl: './prestateur.component.css'
 })
+export class PrestateurComponent implements OnInit{
+  PrestateurForm: FormGroup;
+  prestateurs : Prestateur[] = [];
+  Role: RolePrestateur[] = [];
+  isEditing = false;
+//  Orga:Utilisateur[]=[];
 
-// Déclaration de la classe du composant
-export class PrestateurComponent implements OnInit {
-  // Déclaration des propriétés du composant
-  prestateur: any = { nom: '', email: '', profile: '', telephone: '', description:'' }; // Objet pour stocker les informations d'un prestateur
-  isEditMode: boolean = false; // Booléen pour déterminer si le composant est en mode édition ou ajout
-
-  // Constructeur injectant les services nécessaires
   constructor(
-    private prestateurService: PrestateurService, // Service pour gérer les opérations liées aux prestateurs
-    private route: ActivatedRoute, // Service pour accéder aux paramètres de route
-    private router: Router // Service pour la navigation dans l'application
-  ) { }
+    private prestateurservice: PrestateurService,
+    private userservice:UtilisateurServiceService,
+    private champ: FormBuilder
+  ) {
+    
+    this.PrestateurForm = this.champ.group({
 
-  // Méthode appelée après que le composant a été initialisé
+      nom_presta: ['', Validators.required],
+      email: ['', Validators.required],
+      tel: ['', Validators.required],
+      profile: ['', Validators.required],
+      utilisateur: ['', Validators.required],
+      rolePrestateur: ['', Validators.required]      
+    })
+
+  }
+
   ngOnInit(): void {
-    // Récupération de l'identifiant du prestateur à partir des paramètres de route
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.isEditMode = true; // Passage en mode édition si un identifiant est trouvé
-      // Récupération des données du prestateur par son identifiant
-      this.prestateurService.getPrestateurById(Number(id)).subscribe(data => {
-        this.prestateur = data; // Assignation des données récupérées à la propriété prestateur
-      });
-    }
+      this.getAllPrestateur();
+      this.getAllRolePrestateur();
+
   }
 
-  // Méthode pour sauvegarder les données du prestateur
-  savePrestateur(): void {
-    if (this.isEditMode) {
-      // Si en mode édition, mettre à jour le prestateur existant
-      this.prestateurService.updateprestateur(this.prestateur.id, this.prestateur).subscribe(() => {
-        this.router.navigate(['/prestateurs']); // Redirection vers la liste des prestateurs après la sauvegarde
-      });
+  getAllRolePrestateur(){
+    this.prestateurservice.getAllRolesPresta().subscribe(
+      (data: RolePrestateur[])=>{
+        console.log('vous êtes dans rolePresta:', data);
+        this.Role = data;
+      },
+      error =>{
+        console.error('erreur RolePrestateur:', error)
+      }
+    )
+  }
+  getAllPrestateur(){
+    this.prestateurservice.getAllPrestateurs().subscribe(
+      (data: Prestateur[])=>{
+        console.log('vous êtes dans rolePresta:', data);
+        this.prestateurs = data;
+      },
+      error =>{
+        console.error('erreur RolePrestateur:', error)
+      }
+    )
+  }
+
+ 
+ 
+
+
+  onSubmit(): void {
+    if (this.PrestateurForm.valid) {
+      const newPresta: Prestateur = this.PrestateurForm.value;
+      newPresta.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
+    //  newPresta.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+  
+      this.addPrestateur(newPresta);
     } else {
-      // Sinon, créer un nouveau prestateur
-      this.prestateurService.createPrestateur(this.prestateur).subscribe(() => {
-        this.router.navigate(['/prestateurs']); // Redirection vers la liste des prestateurs après la création
-      });
+      console.error('Formulaire invalide');
+      // Afficher des messages d'erreur pour l'utilisateur
     }
   }
+  
+   
+  addPrestateur(newPresta: Prestateur): void {
+    this.prestateurservice.createPrestateur(newPresta).subscribe(
+      data => {
+        this.prestateurs.push(data);
+      },
+      error => {
+        console.error('Erreur lors de la création du prestataire:', error);
+        // Afficher des messages d'erreur pour l'utilisateur
+      }
+    );
+  }
+  
+
+
+
+
+
+
+  visibleEq=false;
+  visibleSup=false;
+  visible= false;
+
+
+
+  cacherSup() {
+    this.visibleSup=true;
+    }
+    cacherEq() {
+    this.visibleEq=false;
+    }
+   
+    
+    afficherEq() {
+      this.visibleEq=true;
+    }
+    afficherSupprimer() {
+    this.visibleSup=true;
+    }
+ 
+
 }
+
+
+

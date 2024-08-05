@@ -5,8 +5,8 @@ import { HttpClient } from "@angular/common/http";
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Lieu } from '../Models/utilisateurmodel.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Lieu } from '../Models/utilisateurmodel.component';
 
 @Component({
   selector: 'app-lieu',
