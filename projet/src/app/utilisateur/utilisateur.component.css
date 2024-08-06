@@ -440,7 +440,6 @@ form{
     border: none;
     background-color: var(--orange);
     font-size: medium;
-
 }
 
 
@@ -459,4 +458,3 @@ form{
     background-color: #e0f7fa; /* Couleur de fond lorsque le champ est actif */
   }
   
-

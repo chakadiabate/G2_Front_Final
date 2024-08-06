@@ -2,6 +2,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import Swal from 'sweetalert2';
+import { AuthService } from '../Service/auth.service';
 import {
   Router,
   ActivatedRoute,
@@ -10,10 +11,10 @@ import {
   RouterModule,
 } from '@angular/router';
 import { EventServiceService } from '../S/event-service.service';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
+// import { CardModule } from 'primeng/card';
+// import { ButtonModule } from 'primeng/button';
 import { Evenement } from '../M/Evenement';
-import { MessageService } from 'primeng/api';
+// import { MessageService } from 'primeng/api';
 import {
   FormBuilder,
   FormGroup,
@@ -23,7 +24,7 @@ import {
 } from '@angular/forms';
 import { category } from '../M/Category';
 import { TypeEvent } from '../M/TypeEvent';
-import { Utilisateur } from '../M/Utilisateur';
+//import { Utilisateur } from '../M/Utilisateur';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -32,15 +33,15 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   standalone: true,
 
   imports: [
-    // NgIf,
-    // RouterOutlet,
-    // NgFor,
-    // CardModule,
-    // RouterModule,
-    // ReactiveFormsModule,
-    // FormsModule,
+     NgIf,
+     RouterOutlet,
+     NgFor,
+     //CardModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
     // ButtonModule,
-    // SidebarComponent
+    SidebarComponent
   ],
 
 
@@ -63,11 +64,12 @@ export class EvenementComponent {
   formGroup!: FormGroup;
   isSaveInProgress: boolean = false;
   edit: boolean = false;
-
+  currentUser:any;
   constructor(
     private eventService: EventServiceService,
+    private authservice: AuthService,
     private formbuilder: FormBuilder,
-    private messageservice: MessageService,
+    // private messageservice: MessageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -86,6 +88,14 @@ export class EvenementComponent {
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+		  next: (data) => {
+			this.currentUser = data;
+		  },
+		  error: (err) => {
+			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+		  }
+		});
     // let id = this.activatedRoute.snapshot.paramMap.get('id');
     // if (id !== 'addEvent') {
     //   this.edit = true;

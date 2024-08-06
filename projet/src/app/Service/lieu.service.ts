@@ -1,33 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import { Lieu } from '../Models/utilisateurmodel.component';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class anyService {
-  private apiUrl = 'http://your-api-url/any';  
+export class LieuService {
+
+  private baseUrl =  "http://localhost:8080/gestEvent/lieu";
 
   constructor(private http: HttpClient) { }
 
-  getAllLieu(): Observable<any> {
-    return this.http.get<any[]>(this.apiUrl);
+  getLieuById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/Afficher/${id}`);
   }
 
-
-  getany(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getAllLieu(): Observable<Lieu[]> {
+    return this.http.get<Lieu[]>(`${this.baseUrl}/ListeLieu`);
   }
 
-  createany(any: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, any);
+  createLieu(Lieu: Lieu){
+    return this.http.post<Lieu>(`${this.baseUrl}/Ajouter`, Lieu);
   }
 
-  updateany(id: number,lieu:object): Observable<object> {
-    return this.http.put(`${this.apiUrl}/${id}`, lieu);
+  updateLieu(id: number, Lieu:Lieu): Observable<Lieu> {
+    return this.http.put<Lieu>(`${this.baseUrl}/update/${id}`, Lieu);
   }
 
-  deleteany(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteLieu(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 }

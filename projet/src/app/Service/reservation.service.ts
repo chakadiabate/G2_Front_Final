@@ -8,7 +8,7 @@ import { Reservation } from '../Models/utilisateurmodel.component';
 })
 export class ReservationService {
 
-  private baseUrl = 'http://localhost:8080/gestEvent/event/Reservation';
+  private baseUrl = 'http://localhost:8080/gestEvent/reservation';
 
   constructor(private http: HttpClient) { }
 
@@ -16,19 +16,9 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseUrl}/ListReservation`);
   }
 
-  getResevationById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  CancelReservation(id: number): Observable<any> {
+    const url = `${this.baseUrl}/AnnulerReservation?id=${id}`;
+    return this.http.patch(url, {});
   }
-
-  createReservation(reservation: Reservation): Observable<Object> {
-    return this.http.post(`${this.baseUrl}/ListReservation`, reservation);
-  }
-
-  updateReservation(id: number, reservation: Object): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, reservation);
-  }
-
-  CancelReservation(reservation:Object,statut:string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}`);
-  }
+  
 }

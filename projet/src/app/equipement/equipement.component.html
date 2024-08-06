@@ -14,9 +14,9 @@
                 <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
-                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                        <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                     </div>
-                        <span><i class="fa-solid fa-circle-chevron-down"></i></span>
+                    <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
                 </div>
         </div>
 
@@ -36,74 +36,50 @@
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
-                    <th>Designation</th>
-                    <th>Date fin</th>
+                    <th>Description</th>
+                    <th>Nom Prestateur</th>
+                    <th>Email du prestateur</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>ID</td>
-                    <td>Nom</td>
-                    <td>Designation</td>
-                    <td>Date fin</td>
-                    <td>
-                        <i style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-                        <i style="color: red;" class="fa-solid fa-trash"></i>
-                    </td>
-                </tr>
-               
+                
+                    <tr *ngFor="let equi of equipement">
+                        <td>{{equi.id}}</td>
+                        <td>{{equi.nom}}</td>
+                        <td>{{equi.description}}</td>
+                        <td>{{equi.presta.nom_presta? equi.presta.nom_presta: 'Non défini'}}</td> 
+                        <td>{{equi.presta.email? equi.presta.email: 'Non défini'}}</td>
+                        <td>
+                            <i  (click)="afficher()" (click)="editEquipement(equi)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                            <i  *ngIf="equi.id !== undefined" (click)="deleteEquipement(equi.id)"  style="color: red;" class="fa-solid fa-trash"></i>
+                        </td>
+                    </tr>
             </table>
     </div>
 
 
 
     <div class="ombre" *ngIf="visible">
-        <form action="">
+        <form [formGroup]="EquipementForm" (ngSubmit)="onSubmit()">
             <div class="btnFermer" (click)="cacher()"><i class="fa-solid fa-xmark"></i></div>
-            <h1>Ajouter Equipement</h1>
+            <h1>{{ isEditing ? 'Modifier Equipement' : 'Ajouter Equipement' }}</h1>
             <div class="input">
                 
                 <div class="Entree">
                     <label for="">Nom</label>
-                    <input type="text" placeholder="Nom de l'évévement">
+                    <input type="text" placeholder="Nom de l'equipement" formControlName="nom">
                 </div>
-                <div class="Entree">
-                    <label for="">Date de début</label>
-                    <input type="date" placeholder="Nom de l'évévement">
-                </div>
-                <div class="Entree">
-                    <label for="">Date de fin</label>
-                    <input type="date" placeholder="Nom de l'évévement">
-                </div>
-                <div class="Entree">
-                    <label for="">Lieu</label>
-                     <select name="" id="">
-                        <option value="">AZERTY</option>
-                        <option value="">QWERTY</option>
-                     </select>
-                </div>
-                <div class="Entree">
-                    <label for="">Type événement</label>
-                     <select name="" id="">
-                        <option value="">AZERTY</option>
-                        <option value="">QWERTY</option>
-                     </select>
-                </div>
-                <div class="Entree">
-                    <label for="">Cathégorie événement</label>
-                    <!-- <input type="text" placeholder="Nom de l'évévement"> -->
-                     <select name="" id="">
-                        <option value="">AZERTY</option>
-                        <option value="">QWERTY</option>
-                     </select>
-                </div>
-
                 <div class="Entree">
                     <label for="">Description</label>
-                    <textarea name="" id=""></textarea>
+                    <input type="text" placeholder="description" formControlName="description">
+                </div>
+                <div class="Entree">
+                    <label for="">Prestateur</label>
+                     <select name="" id="" formControlName="presta">
+                        <option *ngFor="let p of prestateurs" [value]="p.id">{{ p.nom_presta }}</option>
+                     </select>
                 </div>
             </div>
-            
-            <div class="btnAjouter"> <button>Ajouter</button></div>
+            <div class="btnAjouter"> <button (click)="cacher()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
             
         </form>
     </div>

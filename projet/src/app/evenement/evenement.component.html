@@ -1,5 +1,5 @@
 <div class="body">
-    <!-- <app-sidebar></app-sidebar> -->
+    <app-sidebar></app-sidebar>
 <div class="Bigblock">
     <div class="nav">
         <div class="bloc1">
@@ -12,9 +12,7 @@
             <div class="profil">
                 <div class="textezone">
                     <img src="assets/images/profil.jpg" alt="">
-                    <span>
-                        <h3>Mody Barry</h3> <br> Administrateur
-                    </span>
+                    <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                 </div>
                 <span><i class="fa-solid fa-circle-chevron-down"></i></span>
             </div>
@@ -96,10 +94,11 @@
                     </div>
                 </div>
                 <div class="Entree">
-                    <label for="">Type événement</label>
+                    <label for="">Lieu</label>
                     <div class="select">
                         <select formControlName="lieu">
-                            <option value="CICB">LIEU</option>
+                            <option value="CICB">CICB</option>
+                            <option value="Palais des Sports">Palais des Sports</option>
                         </select>
                         <!-- <i class="fa-solid fa-plus" (click)="typepopup()"></i> -->
                     </div>

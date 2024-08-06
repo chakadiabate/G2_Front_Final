@@ -14,7 +14,19 @@ export interface Evenement {
   typeevent: TypeEvent;
   // utilisateur: Utilisateur;
   category: category;
+  derouler: Derouler[];
 }
+export interface Derouler {
+  id?: number;
+  lieu: Lieu;
+  evenement: Evenement;
+}
+export interface Lieu{
 
-
+  id?:number;
+  nom:string;
+  adresse:string;
+  salle:string;
+  capacite:number
+}
     

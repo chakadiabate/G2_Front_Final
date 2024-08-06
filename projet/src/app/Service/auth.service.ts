@@ -26,8 +26,8 @@ export class AuthService {
         const user = users.find((user: any) => user.email === email);
         if (user) {
           // Stocker le token d'authentification et le rôle de l'utilisateur
-          localStorage.setItem('authToken', authHeader);
-          this.userRoleSubject.next(user.role.role);
+          sessionStorage.setItem('authToken', authHeader);
+          this.storeUserRole(user.role.role);
           console.log('Authentification réussie, rôle:', user.role.role);
         }
         return user;
@@ -37,7 +37,7 @@ export class AuthService {
 
   // Méthode pour obtenir les détails de l'utilisateur connecté
   getCurrentUser(): Observable<any> {
-    const authHeader = localStorage.getItem('authToken');
+    const authHeader = sessionStorage.getItem('authToken');
     
     if (!authHeader) {
       console.error('Aucun token d\'authentification trouvé');
@@ -51,23 +51,22 @@ export class AuthService {
     return this.http.get<any>(`${this.baseUrl}/gestEvent/user/currentSession`, { headers });
   }
 
-
-  // Méthode pour stocker le rôle de l'utilisateur dans le stockage local
+  // Méthode pour stocker le rôle de l'utilisateur dans le stockage de session
   private storeUserRole(role: string): void {
-    localStorage.setItem('userRole', role);
+    sessionStorage.setItem('userRole', role);
     this.userRoleSubject.next(role);
   }
 
   // Méthode pour obtenir le rôle de l'utilisateur stocké
   public getUserRole(): string | null {
-    return localStorage.getItem('userRole');
+    return sessionStorage.getItem('userRole');
   }
 
   // Méthode pour déconnecter l'utilisateur
   public logout(): void {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userRole');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('userRole');
     this.userRoleSubject.next(null);
     console.log('Déconnecté');
   }
-
+}

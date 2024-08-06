@@ -1,8 +1,6 @@
-
 import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './Service/auth.service';
 import { map, Observable, of } from 'rxjs';
-
 import { Injectable } from '@angular/core';
 
 
@@ -14,7 +12,6 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
     const role = this.authService.getUserRole();
     const expectedRole = route.data['role'];
     
@@ -34,7 +31,6 @@ export class AuthGuard implements CanActivate {
     this.authService.logout();
     this.router.navigate(['/']); // Redirige vers la page de connexion
   }
-
 
 
 

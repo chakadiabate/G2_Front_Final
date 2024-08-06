@@ -14,11 +14,9 @@
                 <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
-
-                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                        <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                     </div>
                     <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
-
                 </div>
         </div>
   
@@ -34,13 +32,11 @@
             <table>
                 <tr>
                     <th>ID</th>
-
                     <th>Date</th>
-                    <th>Categories</th>
-                    <th>Evenement</th>
-                    <th>Methode_Paie</th>
+                    <th>Ticket</th>
+                    <th>Nom </th>
+                    <th>Paiement</th>
                     <th>Statut</th>
-                    <th>Users</th>
                     <th>Action</th>
                 </tr>
                 <tr *ngFor="let res of reservation">
@@ -50,14 +46,11 @@
                      <td>{{ res.evenement.nom }}</td>
                      <td>{{ res.methodePaiement.methodepaie }}</td>
                      <td>{{ res.statut.statut}}</td>
-                     <td>{{ res.utilisateur.nom}}</td>
                      <td>
-                        <i   style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-                        <i (click)="afficherSup()" *ngIf="res.id !== undefined"  style="color: red;" class="fa-solid fa-trash"></i>
+                        <i *ngIf="res.id !== undefined" (click)="AnnulerRes(res.id)" style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
-
-               
+                 
             </table>
     </div>
   

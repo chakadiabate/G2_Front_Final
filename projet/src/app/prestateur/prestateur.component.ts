@@ -1,57 +1,203 @@
-// Importation des modules nécessaires d'Angular
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgForOf, NgIf } from '@angular/common';
+import { Prestateur, RolePrestateur, Utilisateur } from '../Models/utilisateurmodel.component';
 import { PrestateurService } from '../Service/prestateur.service';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { UtilisateurServiceService } from '../Service/utilisateur.service';
+import { AuthService } from '../Service/auth.service';
 
-// Déclaration du composant Angular
+
 @Component({
-  standalone: true, // Indique que ce composant est autonome et peut être utilisé sans module Angular traditionnel
-  selector: 'app-prestateur', // Nom du sélecteur HTML pour ce composant
-  templateUrl: './prestateur.component.html', // URL du fichier template HTML
-  styleUrls: ['./prestateur.component.css'], // URL du fichier CSS de style pour ce composant
-  imports: [CommonModule, FormsModule, RouterLink] // Modules nécessaires pour ce composant : CommonModule pour les directives Angular de base, FormsModule pour la gestion des formulaires, et RouterLink pour les liens de navigation
+  selector: 'app-prestateur',
+  standalone: true,
+  imports: 
+  [
+    NgIf,
+    NgForOf,
+    RouterOutlet,
+    RouterLink,
+    SidebarComponent,
+    ReactiveFormsModule
+  ],
+  templateUrl: './prestateur.component.html',
+  styleUrl: './prestateur.component.css'
 })
-
-// Déclaration de la classe du composant
-export class PrestateurComponent implements OnInit {
-  // Déclaration des propriétés du composant
-  prestateur: any = { nom: '', email: '', profile: '', telephone: '', description:'' }; // Objet pour stocker les informations d'un prestateur
-  isEditMode: boolean = false; // Booléen pour déterminer si le composant est en mode édition ou ajout
-
-  // Constructeur injectant les services nécessaires
+export class PrestateurComponent implements OnInit{
+  PrestateurForm: FormGroup;
+  prestateurs : Prestateur[] = [];
+  Role: RolePrestateur[] = [];
+  isEditing = false;
+  Orga:Utilisateur[]=[];
+  currentUser:any;
+  currentPrestaId: number | null = null;
   constructor(
-    private prestateurService: PrestateurService, // Service pour gérer les opérations liées aux prestateurs
-    private route: ActivatedRoute, // Service pour accéder aux paramètres de route
-    private router: Router // Service pour la navigation dans l'application
-  ) { }
+    private prestateurservice: PrestateurService,
+    private userservice:UtilisateurServiceService,
+    private authservice:AuthService,
+    private champ: FormBuilder
+  ) {
+    
+    this.PrestateurForm = this.champ.group({
 
-  // Méthode appelée après que le composant a été initialisé
+      nom_presta: ['', Validators.required],
+      email: ['', Validators.required],
+      tel: ['', Validators.required],
+      profile: ['', Validators.required],
+      utilisateur: ['', Validators.required],
+      rolePrestateur: ['', Validators.required]      
+    })
+
+  }
+
   ngOnInit(): void {
-    // Récupération de l'identifiant du prestateur à partir des paramètres de route
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.isEditMode = true; // Passage en mode édition si un identifiant est trouvé
-      // Récupération des données du prestateur par son identifiant
-      this.prestateurService.getPrestateurById(Number(id)).subscribe(data => {
-        this.prestateur = data; // Assignation des données récupérées à la propriété prestateur
-      });
+    this.authservice.getCurrentUser().subscribe({
+      next: (data) => {
+        this.currentUser = data;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+      }
+    });
+      this.getAllPrestateur();
+      this.getAllRolePrestateur();
+      this.getAllUtil();
+  }
+
+  getAllRolePrestateur(){
+    this.prestateurservice.getAllRolesPresta().subscribe(
+      (data: RolePrestateur[])=>{
+        console.log('vous êtes dans rolePresta:', data);
+        this.Role = data;
+      },
+      error =>{
+        console.error('erreur RolePrestateur:', error)
+      }
+    )
+  }
+  getAllPrestateur(){
+    this.prestateurservice.getAllPrestateurs().subscribe(
+      (data: Prestateur[])=>{
+        console.log('vous êtes dans rolePresta:', data);
+        this.prestateurs = data;
+      },
+      error =>{
+        console.error('erreur RolePrestateur:', error)
+      }
+    )
+  }
+
+ 
+  getAllUtil(){
+    this.userservice.getAllUsers().subscribe(
+      (data: Utilisateur[])=>{
+        console.log('vous êtes dans Organisateur:', data);
+        this.Orga = data;
+      },
+      error =>{
+        console.error('erreur Orga:', error)
+      }
+    )
+  }
+
+
+
+  onSubmit(): void {
+    if (this.isEditing && this.currentPrestaId !== null) {
+      this.updatePresta();
+    } else {
+      const newPresta: Prestateur = this.PrestateurForm.value;
+      newPresta.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
+      newPresta.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+  
+      this.addPrestateur(newPresta);
+    }
+    
+  }
+  
+
+  addPrestateur(newPresta: Prestateur): void {
+    this.prestateurservice.createPrestateur(newPresta).subscribe(
+      data => {
+        this.prestateurs.push(data);
+        this.PrestateurForm.reset();
+      },
+      error => {
+        console.error('Erreur lors de la création du prestataire:', error);
+        // Afficher des messages d'erreur pour l'utilisateur
+      }
+    );
+  }
+  
+
+  editPresta(presta: Prestateur): void {
+    this.isEditing = true;
+    this.currentPrestaId = presta.id !== undefined ? presta.id : null;
+    this.PrestateurForm.patchValue({
+      ...presta
+    });
+  }
+  //methode pour la mise a jour
+  updatePresta(): void {
+    if (this.currentPrestaId !== null) {
+      console.log('id courant',this.currentPrestaId);
+      const PrestatUpdate: Prestateur = this.PrestateurForm.value;
+      PrestatUpdate.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
+      PrestatUpdate.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+      console.log(PrestatUpdate);
+      this.prestateurservice.updateprestateur(this.currentPrestaId, PrestatUpdate).subscribe(
+        data => {
+          const index = this.prestateurs.findIndex(e => e.id === this.currentPrestaId);
+          if (index !== -1) {
+            this.prestateurs[index] = data;
+            //this.filteredLieu[index] = data; // Update the filtered list as well
+          }
+          this.PrestateurForm.reset();
+          this.isEditing = false;
+          this.currentPrestaId = null;
+        },
+        error => console.error(error)
+      );
     }
   }
 
-  // Méthode pour sauvegarder les données du prestateur
-  savePrestateur(): void {
-    if (this.isEditMode) {
-      // Si en mode édition, mettre à jour le prestateur existant
-      this.prestateurService.updateprestateur(this.prestateur.id, this.prestateur).subscribe(() => {
-        this.router.navigate(['/prestateurs']); // Redirection vers la liste des prestateurs après la sauvegarde
-      });
-    } else {
-      // Sinon, créer un nouveau prestateur
-      this.prestateurService.createPrestateur(this.prestateur).subscribe(() => {
-        this.router.navigate(['/prestateurs']); // Redirection vers la liste des prestateurs après la création
-      });
-    }
+  deletePresta(id: number): void {
+    this.prestateurservice.deleteprestateur(id).subscribe(
+      () => {
+        this.prestateurs = this.prestateurs.filter(p => p.id !== id);
+        //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
+      },
+      error => console.error(error)
+    );
   }
+  
+
+
+
+  visibleEq=false;
+  visibleSup=false;
+  visible= false;
+
+
+
+  cacherSup() {
+    this.visibleSup=true;
+    }
+    cacherEq() {
+    this.visibleEq=false;
+    }
+   
+    
+    afficherEq() {
+      this.visibleEq=true;
+    }
+    afficherSupprimer() {
+    this.visibleSup=true;
+    }
+ 
+
 }
+
+
+

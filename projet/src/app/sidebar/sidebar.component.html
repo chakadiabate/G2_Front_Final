@@ -5,7 +5,7 @@
     <!-- </div> -->
     <div class="pages">
 
-            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/acceuil"><i class="fa-solid fa-house"></i><span>Accueil</span></a> 
+            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/accueil"><i class="fa-solid fa-house"></i><span>Accueil</span></a> 
 
             <a *ngIf="role === 'ADMIN'"  routerLink="/utilisateur" id="User"><i class="fa-solid fa-user"></i><span>Utilisateurs</span></a> 
 
@@ -22,12 +22,12 @@
 
             <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL'"  routerLink="/reservation"><i class="fa-solid fa-money-bill"></i><span>Réservations</span></a>
 
-            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/evenement"><i class="fa-solid fa-list-check"></i><span>Task-list</span></a>
+            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/tasklist"><i class="fa-solid fa-list-check"></i><span>Task-list</span></a>
 
-            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/evenement" ><i class="fa-solid fa-gear"></i><span>Réglages</span></a> 
+            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/reglage" ><i class="fa-solid fa-gear"></i><span>Réglages</span></a> 
     </div>
     <div routerLink="" class="logout">
-        <a><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a> 
+        <a><i class="fa-solid fa-right-from-bracket"></i><span (click)="logout()">Déconnexion</span></a> 
     </div>
 </div>
 

@@ -5,8 +5,9 @@ import { HttpClient } from "@angular/common/http";
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Lieu } from '../Models/utilisateurmodel.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Lieu } from '../Models/utilisateurmodel.component';
+import { AuthService } from '../Service/auth.service';
 
 @Component({
   selector: 'app-lieu',
@@ -32,12 +33,14 @@ export class LieuComponent implements OnInit {
   isEditing = false;
   currentLieuId: number | null = null;
   searchText = '';
+  currentUser:any;
   // Pagination properties
   p: number = 1; // Current page
   itemsPerPage: number = 5; // Number of items per page
 
   constructor(
     private lieuservice: LieuService,
+    private authservice: AuthService,
     private fb: FormBuilder
   ) {
     this.lieuForm = this.fb.group({
@@ -49,6 +52,14 @@ export class LieuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+		  next: (data) => {
+			this.currentUser = data;
+		  },
+		  error: (err) => {
+			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+		  }
+		});
     this.getAllLieu();
   }
 
