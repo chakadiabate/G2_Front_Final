@@ -8,10 +8,10 @@ import {
   RouterLink,
   RouterModule,
 } from '@angular/router';
-import { EventServiceService } from '../S/event-service.service';
+import { EventServiceService } from '../Services/event-service.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { Evenement } from '../M/Evenement';
+import { Evenement, Lieu } from '../Modeles/Evenement';
 import { MessageService } from 'primeng/api';
 import {
   FormBuilder,
@@ -20,24 +20,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { category } from '../M/Category';
-import { TypeEvent } from '../M/TypeEvent';
-import { Utilisateur } from '../M/Utilisateur';
+import { category } from '../Modeles/Category';
+import { TypeEvent } from '../Modeles/TypeEvent';
+// import { BehaviorSubject } from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-evenement',
   standalone: true,
   imports: [
-    // NgIf,
-    // RouterOutlet,
-    // NgFor,
-    // CardModule,
-    // RouterModule,
-    // ReactiveFormsModule,
-    // FormsModule,
-    // ButtonModule,
-    // SidebarComponent
+    NgIf,
+    RouterOutlet,
+    NgFor,
+    CardModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ButtonModule,
+    SidebarComponent,
   ],
 
   templateUrl: './evenement.component.html',
@@ -49,13 +49,20 @@ export class EvenementComponent {
   catpop = false;
   typepop = false;
 
+  // private typesSubject = new BehaviorSubject<any[]>([]);
   evenement: Evenement[] = [];
   CatEvent: category[] = [];
   typeEvent: TypeEvent[] = [];
+  Lieu: Lieu[] = [];
   currentUserId: number | null = null;
+  // types: any[] = [];
   // Utilis: Utilisateur[] = [];
 
   formGroup!: FormGroup;
+  TypeFormGroup!: FormGroup;
+
+  CatFormGroup!: FormGroup;
+
   isSaveInProgress: boolean = false;
   edit: boolean = false;
 
@@ -70,13 +77,21 @@ export class EvenementComponent {
       // id: [1, [Validators.required]],
       nom: ['', [Validators.required]],
       date: ['', [Validators.required]],
+      heure: ['', [Validators.required]],
       datedebut: ['', [Validators.required]],
-      lieu: ['', [Validators.required]],
       datefin: ['', [Validators.required]],
+      lieu: ['', [Validators.required]],
       description: ['', [Validators.required]],
       typeevent: [null, [Validators.required]],
       // users_id: [null, [Validators.required]],
       category: [null, [Validators.required]],
+    });
+
+    this.TypeFormGroup = this.formbuilder.group({
+      type: ['', [Validators.required]],
+    });
+    this.CatFormGroup = this.formbuilder.group({
+      category: ['', [Validators.required]],
     });
   }
 
@@ -86,9 +101,52 @@ export class EvenementComponent {
     //   this.edit = true;
     //   // this.getEventById(+id!);
     // }
+    // this.eventService.types$.subscribe((types) => {
+    //   this.types = types;
+    // });
+
+    // this.eventService.fetchTypes();
+    this.getLieu();
     this.getEvents();
     this.getTypeEvent();
     this.getCat();
+  }
+
+  createTypeEvent() {
+    this.eventService.CreateTypeEvent(this.TypeFormGroup.value).subscribe({
+      next: () => {
+        this.TypeFormGroup.reset();
+        // this.eventService.fetchTypes();
+        this.typepop = false;
+        this.router.navigate(['/evenement']);
+        this.getTypeEvent();
+      },
+    });
+  }
+  createCategory() {
+    this.eventService.CreateCat(this.CatFormGroup.value).subscribe({
+      next: () => {
+        // this.TypeFormGroup.reset();
+        // this.eventService.fetchTypes();
+
+        this.catpop = false;
+        this.router.navigate(['/evenement']);
+        this.getCat();
+      },
+    });
+    this.getCat();
+  }
+
+  getEvents() {
+    return this.eventService.getEvents().subscribe((data) => {
+      this.evenement = data;
+    });
+  }
+
+  getLieu() {
+    return this.eventService.getLieu().subscribe((data) => {
+      this.Lieu = data;
+    });
   }
 
   getTypeEvent() {
@@ -104,61 +162,67 @@ export class EvenementComponent {
   }
 
   onSubmit(): void {
-    // if (this.isEditing && this.currentUserId !== null) {
-    //   this.updateUser();
-    // } else {}
-    const Evene: Evenement = this.formGroup.value;
-    Evene.category = {
-      id: this.formGroup.value.category.id,
-      category: this.formGroup.value.category.category,
-    } as category; // Map roleId to role object
-    Evene.typeevent = {
-      id: this.formGroup.value.typeevent.id,
-      type: this.formGroup.value.typeevent.type,
-    } as TypeEvent; // Map roleId to role object
+    if (this.edit && this.currentUserId !== null) {
+      this.updateEvent();
+    } else {
+      const Evene: Evenement = this.formGroup.value;
+      Evene.category = {
+        id: this.formGroup.value.category.id,
+        category: this.formGroup.value.category.category,
+      } as category; // Map roleId to role object
+      Evene.typeevent = {
+        id: this.formGroup.value.typeevent.id,
+        type: this.formGroup.value.typeevent.type,
+      } as TypeEvent;
 
-    // console.log('Roles:', this.roles);
-    // console.log('New user:', newUser);
+      this.createEvent(Evene);
+      this.getEvents();
+    }
 
-    // const typeE = this.typeEvent.find((r) => r.id === Evene.typeevent.id)?.type;
-    // const catE = this.CatEvent.find((r) => r.id === Evene.category.id)?.category;
-
-    // const evene: Evenement = {
-    //   ...this.formGroup.value,
-    //   typeevent: { Evene., type: selectedTypeEvent.type },
-    //   category: {
-    //     id: selectedCategory.id,
-    //     category: selectedCategory.category,
-    //   },
-    // };
-
-    this.createEvent(Evene);
     // this.router.navigateByUrl('/tache');
   }
 
   createEvent(event: Evenement) {
-    // event.category = { id: this.formGroup.value.category } as category; // Map roleId to role object
-    // event.typeevent = { id: this.formGroup.value.typeevent } as TypeEvent; // Map roleId to role object
     this.eventService.CreateEvent(event).subscribe({
       next: (data) => {
         this.evenement.push(data);
         this.formGroup.reset();
-        this.router.navigateByUrl('/evenement');
+        this.visible = false;
+        this.getEvents();
       },
       error: (err) => {
-        // Gérer les erreurs ici, par exemple :
         console.error("Erreur lors de la création de l'événement:", err);
       },
     });
+    this.visible = false;
+    this.getEvents();
   }
 
-  getEvents() {
-    return this.eventService.getEvents().subscribe((data) => {
-      this.evenement = data;
-    });
+  updateEvent(): void {
+    if (this.currentUserId !== null) {
+      const updatedEvent: Evenement = this.formGroup.value;
+      // updatedUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+      this.eventService.UpdateEvent(this.currentUserId, updatedEvent).subscribe(
+        (data) => {
+          const index = this.evenement.findIndex(
+            (u) => u.id === this.currentUserId
+          );
+          if (index !== -1) {
+            this.evenement[index] = data;
+            // this.filteredUtilisateurs[index] = data; // Mettez à jour aussi la liste filtrée
+          }
+          this.formGroup.reset();
+          this.edit = false;
+          this.currentUserId = null;
+        },
+        (error) => console.error(error)
+      );
+    }
+    this.visible = false;
+    // this.getEvents();
   }
 
-  editUser(evenement: Evenement): void {
+  editEvent(evenement: Evenement): void {
     this.edit = true;
     this.currentUserId = evenement.id !== undefined ? evenement.id : null;
     this.formGroup.patchValue({
@@ -181,8 +245,10 @@ export class EvenementComponent {
         this.eventService.DeleteEvent(id).subscribe(
           () => {
             this.evenement = this.evenement.filter((u) => u.id !== id);
+            this.getEvents();
             // Mettez à jour aussi la liste filtrée
             Swal.fire('Supprimé!', "L'utilisateur a été supprimé.", 'success');
+            this.getEvents();
           },
           (error) => {
             console.error(error);
@@ -193,8 +259,11 @@ export class EvenementComponent {
             );
           }
         );
+        // this.getEvents();
       }
+      // this.getEvents();
     });
+    this.getEvents();
   }
 
   // deleteUser(id: number): void {
