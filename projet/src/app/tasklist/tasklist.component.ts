@@ -112,19 +112,24 @@ export class TasklistComponent implements OnInit{
   
 
     onSubmit(): void {
-      const newTask: Task = {
-        ...this.taskForm.value,
-        evenement: { id: this.taskForm.value.evenement } as Evenement,
-        priority_task: { id: this.taskForm.value.priority_task } as priority_task,
-        utilisateur: { id: this.taskForm.value.utilisateur } as Utilisateur
-      };
-  
-      const evenement = this.Even.find(e => e.id === newTask.evenement.id)?.nom
-       console.log('voici evenement recuperer:', this.Even);
-      // console.log('New user:', newUser);
-  
-   
-      this.addTache(newTask);
+      if(this.isEditing){
+           this.updateTask();
+      }
+      else{
+        const newTask: Task = {
+          ...this.taskForm.value,
+          evenement: { id: this.taskForm.value.evenement } as Evenement,
+          priority_task: { id: this.taskForm.value.priority_task } as priority_task,
+          utilisateur: { id: this.taskForm.value.utilisateur } as Utilisateur
+        };
+    
+        const evenement = this.Even.find(e => e.id === newTask.evenement.id)?.nom
+         console.log('voici evenement recuperer:', this.Even);
+        // console.log('New user:', newUser);
+    
+     
+        this.addTache(newTask);
+      }
     
     }
 
@@ -141,11 +146,24 @@ export class TasklistComponent implements OnInit{
 
   }
 
+
+  editTache(tache: Task): void {
+    this.isEditing = true;
+    this.currentTaskId = tache.id !== undefined ? tache.id : null;
+    this.taskForm.patchValue({
+      ...tache,
+      utilisateur: tache.utilisateur?.id
+    });
+  }
+
+
   updateTask():void{
 
     if (this.currentTaskId !== null) {
       const updatedTask: Task = this.taskForm.value;
-      updatedTask.utilisateur= { id: this.taskForm.value.USERID } as Utilisateur; // Map roleId to role object
+      updatedTask.evenement= { id: this.taskForm.value.evenement } as Evenement; // Map roleId to role object
+      updatedTask.utilisateur= { id: this.taskForm.value.utilisateur } as Utilisateur;
+      updatedTask.priority_task= { id: this.taskForm.value.priority_task } as priority_task;
       this.tasklistservice.updateTask(this.currentTaskId, updatedTask).subscribe(
         data => {
           const index = this.tasks.findIndex(t => t.id === this.currentTaskId);
@@ -162,15 +180,7 @@ export class TasklistComponent implements OnInit{
   }
   
 
-  editTache(task: Task): void {
-    this.isEditing = true;
-    this.currentTaskId = task.id !== undefined ? task.id : null;
-    this.taskForm.patchValue({
-      ...task,
-      utilisateur: task.utilisateur?.id
-    });
-  }
-
+  
   visibleEq=false;
   visibleSup=false;
   visible= false;
