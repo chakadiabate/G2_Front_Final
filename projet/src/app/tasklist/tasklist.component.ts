@@ -28,12 +28,14 @@ import { TasklistService } from '../Service/tasklist.service';
 })
 export class TasklistComponent implements OnInit{
 
+
   taskForm: FormGroup;
   tasks : Task[] = [];
   Even: Evenement[] = [];
   Priorite: priority_task[] = [];
   Uti: Utilisateur[] = [];
-  isEditing = false;
+  isEditing : boolean = false;
+  currentTaskId: number | null = null;
 
   constructor(
     private tasklistservice: TasklistService,
@@ -43,9 +45,9 @@ export class TasklistComponent implements OnInit{
     this.taskForm = this.champ.group({
 
       title: ['', Validators.required],
-      even_id: ['', Validators.required],
-      priority_id: ['', Validators.required],
-      user_id: ['', Validators.required]
+      evenement: ['', Validators.required],
+      priority_task: ['', Validators.required],
+      utilisateur: ['', Validators.required]
       
     })
 
@@ -82,24 +84,26 @@ export class TasklistComponent implements OnInit{
     )
   }
 
-  getAllUtil(){
-    this.tasklistservice.getAllUtil().subscribe(
-      (data: Utilisateur[])=>{
-        console.log('vous êtes dans UTILISATEUR:', data);
-        this.Uti = data;
-      },
-      error =>{
-        console.error('erreur UTITLISATEUR:', error)
-      }
-    )
-  }
-
+  getAllUtil()
+     {
+      this.tasklistservice.getAllUtil().subscribe(
+        (data: Utilisateur[]) => {
+          this.Uti = data;
+          console.log("bonjour mon Utilisateur",data);
+         
+        },
+        error => console.error(error)
+      );
+    }
   getAllTask()
      {
       this.tasklistservice.getAllTask().subscribe(
         (data: Task[]) => {
           this.tasks = data;
-          console.log("bonjour mon task",data);
+          data.forEach(element => {
+            console.log("bonjour mon task",element.evenement.nom);
+        
+          });
          
         },
         error => console.error(error)
@@ -108,13 +112,14 @@ export class TasklistComponent implements OnInit{
   
 
     onSubmit(): void {
-   
-      const newTask: Task = this.taskForm.value;
-      newTask.even_id = { id: this.taskForm.value.Even } as Evenement; 
-      newTask.priority_id = { id: this.taskForm.value.Priorite } as priority_task; 
-      newTask.user_id = { id: this.taskForm.value.Uti } as Utilisateur;
-
-      const even_id = this.Even.find(e => e.id === newTask.even_id.id)?.nom
+      const newTask: Task = {
+        ...this.taskForm.value,
+        evenement: { id: this.taskForm.value.evenement } as Evenement,
+        priority_task: { id: this.taskForm.value.priority_task } as priority_task,
+        utilisateur: { id: this.taskForm.value.utilisateur } as Utilisateur
+      };
+  
+      const evenement = this.Even.find(e => e.id === newTask.evenement.id)?.nom
        console.log('voici evenement recuperer:', this.Even);
       // console.log('New user:', newUser);
   
@@ -136,31 +141,68 @@ export class TasklistComponent implements OnInit{
 
   }
 
+  updateTask():void{
+
+    if (this.currentTaskId !== null) {
+      const updatedTask: Task = this.taskForm.value;
+      updatedTask.utilisateur= { id: this.taskForm.value.USERID } as Utilisateur; // Map roleId to role object
+      this.tasklistservice.updateTask(this.currentTaskId, updatedTask).subscribe(
+        data => {
+          const index = this.tasks.findIndex(t => t.id === this.currentTaskId);
+          if (index !== -1) {
+            this.tasks[index] = data;
+          }
+          this.taskForm.reset();
+          this.isEditing = false;
+          this.currentTaskId = null;
+        },
+        error => console.error(error)
+      );
+    }
+  }
+  
+
+  editTache(task: Task): void {
+    this.isEditing = true;
+    this.currentTaskId = task.id !== undefined ? task.id : null;
+    this.taskForm.patchValue({
+      ...task,
+      utilisateur: task.utilisateur?.id
+    });
+  }
+
   visibleEq=false;
   visibleSup=false;
   visible= false;
 
-  deleteTache(arg0: number) {
-    throw new Error('Method not implemented.');
-    }
-    ModifieTache(_t32: Task) {
-    throw new Error('Method not implemented.');
-    }
-
-  cacherSup() {
-    this.visibleSup=true;
-    }
-    cacherEq() {
-    this.visibleEq=false;
+  deleteTache(id: number) {
+    this.tasklistservice.deleteTask(id).subscribe(
+      () => this.tasks = this.tasks.filter( t =>t.id !== id),
+      error => console.error(error)
+    );
     }
    
-    
-    afficherEq() {
+
+    afficher(){
+      this.visible=true;
+    }
+    cacher() {
+      this.visible=false;
+    }
+    afficherSupprimer(){
+      this.visibleSup=true;
+    }
+    confirmDeleteTache() {
+      this.visibleSup=true;
+      }
+    cacherSup() {
+      this.visibleSup=false;
+    }
+    afficherEq(){
       this.visibleEq=true;
     }
-    afficherSupprimer() {
-    this.visibleSup=true;
+    cacherEq() {
+      this.visibleEq=false;
     }
- 
 
 }

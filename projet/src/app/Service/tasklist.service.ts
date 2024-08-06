@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class TasklistService {
 
-  private baseUrl = 'http://localhost:8080/gestEvent/tasks'
-  private EvenUrl = 'http://localhost:8080/gestEvent/event'
-  private PrioUrl = 'http://localhost:8080/gestEvent/PriorityTask'
-  private UtilUrl = 'http://localhost:8080/gestEvent/user'
+  private baseUrl = 'http://localhost:8081/gestEvent/tasks'
+  private EvenUrl = 'http://localhost:8081/gestEvent/event'
+  private PrioUrl = 'http://localhost:8081/gestEvent/PriorityTask'
+  private UtilUrl = 'http://localhost:8081/gestEvent/user'
 
   constructor(private http: HttpClient) { }
 
@@ -19,8 +19,8 @@ export class TasklistService {
     return this.http.post<Task>(`${this.baseUrl}/CreerTache`, taches)
   }
 
-  getAllTask(): Observable<Task[]>{
-    return this.http.get<Task[]>(`${this.baseUrl}/ListerTaches`)
+  getAllTask(): Observable<any>{
+    return this.http.get<any>(`${this.baseUrl}/ListerTaches`)
   }
 
   updateTask(id: number, taches: Task): Observable<Task>{

@@ -34,7 +34,7 @@ export interface statut_reservation {
 }
 
 export interface Evenement{
-  id?: number;
+  id: number;
   date: Date,
   datedebut: Date,
   datefin: Date,
@@ -68,17 +68,55 @@ export interface Categorie_Billet{
 }
 
 export interface priority_task{
-  id?: number;
+  id: number;
   priority:string
+}
+ 
+export class event implements Evenement{
+  id: number;
+  date: Date;
+  datedebut: Date;
+  datefin: Date;
+  description: string;
+  nom: string;
+  nombre_place: number;
+  categories_id: Categorie_event;
+  type_event_id: Type_event;
+  users_id: Utilisateur;
+
+  constructor(
+    id: number,
+    date: Date,
+    datedebut: Date,
+    datefin: Date,
+    description: string,
+    nom: string,
+    nombre_place: number,
+    categories_id: Categorie_event,
+    type_event_id: Type_event,
+    users_id: Utilisateur,
+  ){
+    this.id = id,
+    this.date= date,
+    this.datedebut = datedebut,
+    this.datefin=  datefin,
+    this.description= description,
+    this.nom = nom,
+    this.nombre_place = nombre_place,
+    this.categories_id = categories_id,
+    this.type_event_id = type_event_id,
+    this.users_id = users_id
+  }
+  
 }
 
 export interface Task{
 
-  id?:number;
+  id:number;
   title:string;
-  even_id:Evenement;
-  priority_id:priority_task;
-  user_id:Utilisateur
+  evenement: Evenement;
+  priority_task:priority_task;
+  utilisateur:Utilisateur
 }
 
 

@@ -119,7 +119,7 @@ export class UtilisateurComponent implements OnInit{
   updateUser(): void {
     if (this.currentUserId !== null) {
       const updatedUser: Utilisateur = this.utilisateurForm.value;
-      updatedUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+      updatedUser.role= { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
       this.utilisateurService.updateUser(this.currentUserId, updatedUser).subscribe(
         data => {
           const index = this.utilisateurs.findIndex(u => u.id === this.currentUserId);
