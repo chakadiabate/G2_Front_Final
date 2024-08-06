@@ -15,7 +15,7 @@
         <div class="profil">
             <div class="textezone">
               <img src="assets/images/profil.jpg" alt="">
-              <span><h3>Mody Barry</h3> <br> equipement</span>
+              <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
             </div>
             <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
         </div>
@@ -42,17 +42,17 @@
             <div class="title">
                 <h2>Evenements Recents</h2>
             </div>
-            <div class="content1">
+            <div *ngFor="let ev of event"  class="content1">
                   <div class="part1">
                     <img src="/assets/images/bob.png" alt="">
                   </div>
                   <div class="part2">
                       <div class="nom-event">
-                          <h3>Soon to moon Festival Soon 2</h3>
+                          <h3>{{ ev.nom }}</h3>
                       </div>
                       <div class="detail-event">
-                          <div class="detail-gauche">
-                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
+                          <div  class="detail-gauche">
+                            <div  class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span></span></div>
                             <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
                             <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
                           </div>
@@ -114,7 +114,7 @@
                     <h4>Nombre total d evenement</h4>
                  </div>
                  <div class="nombres">
-                    <h3>1000</h3>
+                    <h3>{{event.length}}</h3>
                  </div>
              </div>
              <div class="reservation-totale">
@@ -122,10 +122,10 @@
                     <img src="/assets/images/Group.png" alt="">
                  </div>
                  <div class="titre">
-                    <h4>Nombre total d evenement</h4>
+                    <h4>Nombre total de Reservation</h4>
                  </div>
                  <div class="nombres">
-                    <h3>1000</h3>
+                    <h3>{{res.length}}</h3>
                  </div>
 
              </div>

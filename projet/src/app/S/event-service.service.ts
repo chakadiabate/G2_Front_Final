@@ -25,7 +25,7 @@ export class EventServiceService {
   }
 
   getEvents(): Observable<Evenement[]> {
-    return this.Http.get<Evenement[]>(`${this.url}/afficher`);
+    return this.Http.get<Evenement[]>(`${this.url}/with-lieux`);
   }
   // getEventById(id: number): Observable<Evenement> {
   //   return this.Http.get<Evenement>(`${this.url}/${id}`);

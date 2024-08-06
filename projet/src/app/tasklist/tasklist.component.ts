@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Evenement,priority_task,Task,Utilisateur } from '../Models/utilisateurmodel.component';
 import { FormBuilder,  FormGroup,  ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasklistService } from '../Service/tasklist.service';
+import { AuthService } from '../Service/auth.service';
 
 
 
@@ -33,9 +34,10 @@ export class TasklistComponent implements OnInit{
   Priorite: priority_task  [] = [];
   Uti: Utilisateur[] = [];
   isEditing = false;
-
+  currentUser:any;
   constructor(
     private tasklistservice: TasklistService,
+    private authservice: AuthService,
     private champ: FormBuilder
   ) {
     
@@ -51,6 +53,14 @@ export class TasklistComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+		  next: (data) => {
+			this.currentUser = data;
+		  },
+		  error: (err) => {
+			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+		  }
+		});
       this.getAllTask();
       this. getAllEven();
       this.getAllPrio();

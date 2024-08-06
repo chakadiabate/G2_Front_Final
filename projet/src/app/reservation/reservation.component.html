@@ -14,7 +14,7 @@
                 <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
-                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                        <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                     </div>
                     <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
                 </div>
@@ -33,24 +33,24 @@
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
-                    <th>Categories_id</th>
-                    <th>Evenement_id</th>
-                    <th>Methode_Paie_id</th>
-                    <th>Statut_id</th>
-                    <th>Users_id</th>
+                    <th>Ticket</th>
+                    <th>Nom </th>
+                    <th>Paiement</th>
+                    <th>Statut</th>
                     <th>Action</th>
                 </tr>
                 <tr *ngFor="let res of reservation">
                     <td>{{ res.id }}</td>
                      <td>{{ res.date_res }}</td>
-                     <td>{{ res.category }}</td>
-                     <td>{{ res.evenement }}</td>
+                     <td>{{ res.category.category }}</td>
+                     <td>{{ res.evenement.nom }}</td>
                      <td>{{ res.methodePaiement.methodepaie }}</td>
                      <td>{{ res.statut.statut}}</td>
-                     <td>{{ res.utilisateur.nom}}</td>
                      <td>
+                        <i *ngIf="res.id !== undefined" (click)="AnnulerRes(res.id)" style="color: red;" class="fa-solid fa-trash"></i>
+                    </td>
                   </tr>
-               
+                 
             </table>
     </div>
   

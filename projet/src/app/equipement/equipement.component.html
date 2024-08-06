@@ -14,7 +14,7 @@
                 <div class="profil">
                     <div class="textezone">
                         <img src="assets/images/profil.jpg" alt="">
-                        <span><h3>Mody Barry</h3> <br> Administrateur</span>
+                        <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                     </div>
                     <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
                 </div>
@@ -49,8 +49,8 @@
                         <td>{{equi.presta.nom_presta? equi.presta.nom_presta: 'Non défini'}}</td> 
                         <td>{{equi.presta.email? equi.presta.email: 'Non défini'}}</td>
                         <td>
-                            <i  (click)="afficherEq()"  style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-                            <i  style="color: red;" class="fa-solid fa-trash"></i>
+                            <i  (click)="afficher()" (click)="editEquipement(equi)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                            <i  *ngIf="equi.id !== undefined" (click)="deleteEquipement(equi.id)"  style="color: red;" class="fa-solid fa-trash"></i>
                         </td>
                     </tr>
             </table>
@@ -61,7 +61,7 @@
     <div class="ombre" *ngIf="visible">
         <form [formGroup]="EquipementForm" (ngSubmit)="onSubmit()">
             <div class="btnFermer" (click)="cacher()"><i class="fa-solid fa-xmark"></i></div>
-            <h1>Ajouter Equipement</h1>
+            <h1>{{ isEditing ? 'Modifier Equipement' : 'Ajouter Equipement' }}</h1>
             <div class="input">
                 
                 <div class="Entree">
@@ -74,12 +74,12 @@
                 </div>
                 <div class="Entree">
                     <label for="">Prestateur</label>
-                     <select name="" id="">
+                     <select name="" id="" formControlName="presta">
                         <option *ngFor="let p of prestateurs" [value]="p.id">{{ p.nom_presta }}</option>
                      </select>
                 </div>
             </div>
-            <div class="btnAjouter"> <button>Ajouter</button></div>
+            <div class="btnAjouter"> <button (click)="cacher()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
             
         </form>
     </div>

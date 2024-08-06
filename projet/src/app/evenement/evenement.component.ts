@@ -2,6 +2,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import Swal from 'sweetalert2';
+import { AuthService } from '../Service/auth.service';
 import {
   Router,
   ActivatedRoute,
@@ -63,9 +64,10 @@ export class EvenementComponent {
   formGroup!: FormGroup;
   isSaveInProgress: boolean = false;
   edit: boolean = false;
-
+  currentUser:any;
   constructor(
     private eventService: EventServiceService,
+    private authservice: AuthService,
     private formbuilder: FormBuilder,
     // private messageservice: MessageService,
     private activatedRoute: ActivatedRoute,
@@ -86,6 +88,14 @@ export class EvenementComponent {
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+		  next: (data) => {
+			this.currentUser = data;
+		  },
+		  error: (err) => {
+			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+		  }
+		});
     // let id = this.activatedRoute.snapshot.paramMap.get('id');
     // if (id !== 'addEvent') {
     //   this.edit = true;

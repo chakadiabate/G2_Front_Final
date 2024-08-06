@@ -6,6 +6,8 @@ import { NgForOf, NgIf } from '@angular/common';
 import { Prestateur, RolePrestateur, Utilisateur } from '../Models/utilisateurmodel.component';
 import { PrestateurService } from '../Service/prestateur.service';
 import { UtilisateurServiceService } from '../Service/utilisateur.service';
+import { AuthService } from '../Service/auth.service';
+
 
 @Component({
   selector: 'app-prestateur',
@@ -27,11 +29,13 @@ export class PrestateurComponent implements OnInit{
   prestateurs : Prestateur[] = [];
   Role: RolePrestateur[] = [];
   isEditing = false;
-//  Orga:Utilisateur[]=[];
-
+  Orga:Utilisateur[]=[];
+  currentUser:any;
+  currentPrestaId: number | null = null;
   constructor(
     private prestateurservice: PrestateurService,
     private userservice:UtilisateurServiceService,
+    private authservice:AuthService,
     private champ: FormBuilder
   ) {
     
@@ -48,9 +52,17 @@ export class PrestateurComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+      next: (data) => {
+        this.currentUser = data;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+      }
+    });
       this.getAllPrestateur();
       this.getAllRolePrestateur();
-
+      this.getAllUtil();
   }
 
   getAllRolePrestateur(){
@@ -77,27 +89,39 @@ export class PrestateurComponent implements OnInit{
   }
 
  
- 
+  getAllUtil(){
+    this.userservice.getAllUsers().subscribe(
+      (data: Utilisateur[])=>{
+        console.log('vous êtes dans Organisateur:', data);
+        this.Orga = data;
+      },
+      error =>{
+        console.error('erreur Orga:', error)
+      }
+    )
+  }
+
 
 
   onSubmit(): void {
-    if (this.PrestateurForm.valid) {
+    if (this.isEditing && this.currentPrestaId !== null) {
+      this.updatePresta();
+    } else {
       const newPresta: Prestateur = this.PrestateurForm.value;
       newPresta.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
-    //  newPresta.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+      newPresta.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
   
       this.addPrestateur(newPresta);
-    } else {
-      console.error('Formulaire invalide');
-      // Afficher des messages d'erreur pour l'utilisateur
     }
+    
   }
   
-   
+
   addPrestateur(newPresta: Prestateur): void {
     this.prestateurservice.createPrestateur(newPresta).subscribe(
       data => {
         this.prestateurs.push(data);
+        this.PrestateurForm.reset();
       },
       error => {
         console.error('Erreur lors de la création du prestataire:', error);
@@ -107,8 +131,47 @@ export class PrestateurComponent implements OnInit{
   }
   
 
+  editPresta(presta: Prestateur): void {
+    this.isEditing = true;
+    this.currentPrestaId = presta.id !== undefined ? presta.id : null;
+    this.PrestateurForm.patchValue({
+      ...presta
+    });
+  }
+  //methode pour la mise a jour
+  updatePresta(): void {
+    if (this.currentPrestaId !== null) {
+      console.log('id courant',this.currentPrestaId);
+      const PrestatUpdate: Prestateur = this.PrestateurForm.value;
+      PrestatUpdate.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
+      PrestatUpdate.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+      console.log(PrestatUpdate);
+      this.prestateurservice.updateprestateur(this.currentPrestaId, PrestatUpdate).subscribe(
+        data => {
+          const index = this.prestateurs.findIndex(e => e.id === this.currentPrestaId);
+          if (index !== -1) {
+            this.prestateurs[index] = data;
+            //this.filteredLieu[index] = data; // Update the filtered list as well
+          }
+          this.PrestateurForm.reset();
+          this.isEditing = false;
+          this.currentPrestaId = null;
+        },
+        error => console.error(error)
+      );
+    }
+  }
 
-
+  deletePresta(id: number): void {
+    this.prestateurservice.deleteprestateur(id).subscribe(
+      () => {
+        this.prestateurs = this.prestateurs.filter(p => p.id !== id);
+        //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
+      },
+      error => console.error(error)
+    );
+  }
+  
 
 
 

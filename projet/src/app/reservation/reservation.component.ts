@@ -7,6 +7,7 @@ import { UtilisateurServiceService } from '../Service/utilisateur.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { ReservationService } from '../Service/reservation.service';
 import { Reservation } from '../Models/utilisateurmodel.component';
+import { AuthService } from '../Service/auth.service';
 
 
 @Component({
@@ -29,10 +30,11 @@ export class ReservationComponent  implements OnInit{
    
   // reservationForm: FormGroup;
   reservation: Reservation[] = [];
-  
-
+  currentReservation: Reservation | undefined;
+  currentUser:any;
   constructor(
     private reservationservice: ReservationService,
+    private authservice: AuthService,
     private fb: FormBuilder
   ) {
     // this.reservationForm = this.fb.group({
@@ -46,6 +48,14 @@ export class ReservationComponent  implements OnInit{
   }
 
   ngOnInit(): void {
+    this.authservice.getCurrentUser().subscribe({
+		  next: (data) => {
+			this.currentUser = data;
+		  },
+		  error: (err) => {
+			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+		  }
+		});
     this.getReservations();
   }
 
@@ -60,8 +70,15 @@ export class ReservationComponent  implements OnInit{
     );
   }
 
-
-
+  AnnulerRes(id: number): void {
+    this.reservationservice.CancelReservation(id).subscribe(
+      () => {
+        this.reservation = this.reservation.filter(p => p.id !== id);
+        //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
+      },
+      error => console.error(error)
+    );
+  }
  
 
  
