@@ -27,6 +27,7 @@ export const routes: Routes = [
         { path: 'edit-prestateur/:id', component: PrestateurComponent },
         { path: 'sidebars', component: SidebarComponent },
         { path: 'tasklist', component: TasklistComponent },
+        
 
         
    
