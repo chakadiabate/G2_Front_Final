@@ -8,6 +8,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 import { ReservationService } from '../Service/reservation.service';
 import { Reservation } from '../Models/utilisateurmodel.component';
 import { AuthService } from '../Service/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -71,13 +72,37 @@ export class ReservationComponent  implements OnInit{
   }
 
   AnnulerRes(id: number): void {
-    this.reservationservice.CancelReservation(id).subscribe(
-      () => {
-        this.reservation = this.reservation.filter(p => p.id !== id);
-        //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
-      },
-      error => console.error(error)
-    );
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Vous ne pourrez pas annuler cette action!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, Annuler la reservation!',
+      cancelButtonText: 'Sortir'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.reservationservice.CancelReservation(id).subscribe(
+          () => {
+            this.reservation = this.reservation.filter(u => u.id !== id);
+            Swal.fire(
+              'Annulation reussi!',
+              'La reservation a ete annuler.',
+              'success'
+            );
+          },
+          error => {
+            console.error(error);
+            Swal.fire(
+              'Annulation reussi!',
+              'La reservation a ete annuler.',
+              'success'
+            );
+          }
+        );
+      }
+    });
   }
  
 

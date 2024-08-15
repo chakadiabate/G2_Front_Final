@@ -4,12 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+//import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { AuthService } from '../Service/auth.service';
-import { Evenement } from '../M/Evenement';
+import { Evenement } from '../Models/utilisateurmodel.component';
 import { Reservation } from '../Models/utilisateurmodel.component';
-import { EventServiceService } from '../S/event-service.service';
+import { EventServiceService } from '../Service/event-service.service'; 
 import { ReservationService } from '../Service/reservation.service';
 
 @Component({
@@ -21,7 +21,7 @@ import { ReservationService } from '../Service/reservation.service';
     MatDatepickerModule,
     MatCardModule,
     CommonModule,
-    CanvasJSAngularChartsModule,
+    //CanvasJSAngularChartsModule,
     SidebarComponent,
 	RouterLink
 ],

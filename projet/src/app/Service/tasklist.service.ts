@@ -31,8 +31,6 @@ export class TasklistService {
     return this.http.delete<void>(`${this.baseUrl}/SupTask/${id}`)
   }
 
-  
-
 
   getAllEven(): Observable<Evenement[]>{
     return this.http.get<Evenement[]>(`${this.EvenUrl}/afficher`)

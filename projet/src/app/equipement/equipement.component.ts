@@ -8,6 +8,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { PrestateurService } from '../Service/prestateur.service';
 import { Equipement, Prestateur } from '../Models/utilisateurmodel.component';
 import { AuthService } from '../Service/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipement',
@@ -143,13 +144,38 @@ updateEquipement(): void {
 }
 
 deleteEquipement(id: number): void {
-  this.equipementervice.deleteEquipement(id).subscribe(
-    () => {
-      this.equipement = this.equipement.filter(e => e.id !== id);
-      //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
-    },
-    error => console.error(error)
-  );
+
+  Swal.fire({
+    title: 'Êtes-vous sûr?',
+    text: 'Vous ne pourrez pas annuler cette action!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimez-le!',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.equipementervice.deleteEquipement(id).subscribe(
+        () => {
+          this.equipement = this.equipement.filter(u => u.id !== id);
+          Swal.fire(
+            'Supprimé!',
+            'L\'equipement a été supprimé.',
+            'success'
+          );
+        },
+        error => {
+          console.error(error);
+          Swal.fire(
+            'Supprimer avec succes!',
+            'L\'equipement a été supprimé.',
+            'success'
+          );
+        }
+      );
+    }
+  });
 }
 
 

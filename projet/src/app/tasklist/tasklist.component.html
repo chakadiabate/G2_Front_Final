@@ -14,7 +14,7 @@
                         <img src="assets/images/profil.jpg" alt="">
                         <span><h3>{{ currentUser.prenom }} {{ currentUser.nom }}</h3> <br> {{ currentUser.role.role }}</span>
                     </div>
-                  
+                    <span><i class="fa-solid fa-circle-chevron-down" routerLink="/reglage"></i></span>
                 </div>
             </div>
             <div class="bloc2">
@@ -22,7 +22,7 @@
                 <h1>Liste des taches</h1>
             
             <div class="droite">
-                <a routerLink="/tasklist" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Utilisateur</span></a>
+                <a routerLink="/tasklist" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter des tâches</span></a>
             </div>
         </div>
         </div>
@@ -32,19 +32,21 @@
                 <tr>
                     <th>ID</th>
                     <th>title</th>
-                    <th>even_id</th>
-                    <th>priority_id</th>
-                    <th>user_id</th>
+                    <th>Nom-Event</th>
+                    <th>Nom-Priorite</th>
+                    <th>Nom-User</th>
+                    <th>Action</th>
+
                 </tr>
             
-                <tr *ngFor="let tache of tasks">
+                <tr *ngFor="let tache of tasks" >
                     <td>{{tache.id}}</td>
                     <td>{{tache.title}}</td>
-                    <td>{{tache.even_id? tache.even_id: 'Non défini'}}</td>               
-                    <td>{{tache.priority_id? tache.priority_id: 'Non défini'}}</td>
-                    <td>{{tache.user_id? tache.user_id: 'défini'}}</td>
+                    <td>{{tache.evenement.nom}}</td>
+                    <td>{{tache.priority.priority}}</td>
+                    <td>{{tache.utilisateur.nom}}</td>
                     <td>
-                        <i  (click)="afficherEq()" (click)="ModifieTache(tache)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
+                        <i  (click)="afficherEq()" (click)="editTache(tache)" style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
                         <i (click)="afficherSupprimer()" *ngIf="tache.id !== undefined" (click)="deleteTache(tache.id)"  style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
@@ -55,7 +57,7 @@
     <div class="ombre" *ngIf="visibleEq">
         <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
             <div class="btnFermer" (click)="cacherEq()"><i class="fa-solid fa-xmark"></i></div>
-            <h1>{{ isEditing ? 'Modifier Utilisateur' : 'Ajouter Utilisateur' }}</h1>
+            <h1>{{ isEditing ? 'Modifier tâches' : 'Ajouter tâches' }}</h1>
             <div class="input">
                 <div class="Entree">
                     <label for="">title</label>
@@ -63,19 +65,19 @@
                 </div>
                 <div class="Entree">
                     <label for="">Even_id</label>
-                    <select id="roleId" formControlName="even_id" class="form-control">
+                    <select id="roleId" formControlName="evenement" class="form-control">
                         <option *ngFor="let even of Even" [value]="even.id">{{ even.nom }}</option>
                     </select>
                 </div>
                 <div class="Entree">
                     <label for="">priority_id</label>
-                    <select id="roleId" formControlName="priority_id" class="form-control">
+                    <select id="roleId" formControlName="priority" class="form-control">
                         <option *ngFor="let priorite of Priorite" [value]="priorite.id">{{ priorite.priority }}</option>
                     </select>
                 </div>
                 <div class="Entree">
                     <label for="">user_id</label>
-                    <select id="roleId" formControlName="user_id" class="form-control">
+                    <select id="roleId" formControlName="utilisateur" class="form-control">
                         <option *ngFor="let uti of Uti" [value]="uti.id">{{ uti.nom }}</option>
                     </select>
                 </div>

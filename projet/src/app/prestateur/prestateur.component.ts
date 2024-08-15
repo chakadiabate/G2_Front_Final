@@ -7,6 +7,7 @@ import { Prestateur, RolePrestateur, Utilisateur } from '../Models/utilisateurmo
 import { PrestateurService } from '../Service/prestateur.service';
 import { UtilisateurServiceService } from '../Service/utilisateur.service';
 import { AuthService } from '../Service/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class PrestateurComponent implements OnInit{
   Orga:Utilisateur[]=[];
   currentUser:any;
   currentPrestaId: number | null = null;
+  currentUserId:any;
   constructor(
     private prestateurservice: PrestateurService,
     private userservice:UtilisateurServiceService,
@@ -45,7 +47,7 @@ export class PrestateurComponent implements OnInit{
       email: ['', Validators.required],
       tel: ['', Validators.required],
       profile: ['', Validators.required],
-      utilisateur: ['', Validators.required],
+      utilisateur: [''],
       rolePrestateur: ['', Validators.required]      
     })
 
@@ -55,14 +57,27 @@ export class PrestateurComponent implements OnInit{
     this.authservice.getCurrentUser().subscribe({
       next: (data) => {
         this.currentUser = data;
+        this.currentUserId = data.id;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
       }
     });
+    this.initForm();
       this.getAllPrestateur();
       this.getAllRolePrestateur();
       this.getAllUtil();
+  }
+  initForm(): void {
+    this.PrestateurForm = this.champ.group({
+
+      nom_presta: ['', Validators.required],
+      email: ['', Validators.required],
+      tel: ['', Validators.required],
+      profile: ['', Validators.required],
+      utilisateur: [this.currentUserId],
+      rolePrestateur: ['', Validators.required]      
+    });
   }
 
   getAllRolePrestateur(){
@@ -163,13 +178,39 @@ export class PrestateurComponent implements OnInit{
   }
 
   deletePresta(id: number): void {
-    this.prestateurservice.deleteprestateur(id).subscribe(
-      () => {
-        this.prestateurs = this.prestateurs.filter(p => p.id !== id);
-        //this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
-      },
-      error => console.error(error)
-    );
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Vous ne pourrez pas annuler cette action!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le!',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.prestateurservice.deleteprestateur(id).subscribe(
+          () => {
+            this.prestateurs = this.prestateurs.filter(u => u.id !== id);
+           
+            Swal.fire(
+              'Supprimé!',
+              'Le prestataire a été supprimé.',
+              'success'
+            );
+          },
+          error => {
+            console.error(error);
+            Swal.fire(
+              'Supprimer avec succes!',
+              'L\'utilisateur a été supprimé.',
+              'success'
+            );
+          }
+        );
+      }
+    });
+
   }
   
 
