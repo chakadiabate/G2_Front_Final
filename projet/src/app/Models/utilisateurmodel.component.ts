@@ -118,3 +118,19 @@ export interface Equipement{
   description:string;
   presta:Prestateur;
 }
+
+export interface Billet{
+  id?:number;
+  quantiteDisponible:number;
+  prix:number;
+  date:Date;
+  description:string;
+  nbreBilletParPersonne:number;
+  categoryBillet:Categorie_Billet;
+  evenement:Evenement;
+  status:StatutBillet;
+}
+export interface StatutBillet{
+  id?:number;
+  statut:string;
+}

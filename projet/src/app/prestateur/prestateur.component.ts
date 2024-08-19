@@ -58,26 +58,16 @@ export class PrestateurComponent implements OnInit{
       next: (data) => {
         this.currentUser = data;
         this.currentUserId = data.id;
+        console.log(this.currentUserId);
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
       }
     });
-    this.initForm();
+   
       this.getAllPrestateur();
       this.getAllRolePrestateur();
       this.getAllUtil();
-  }
-  initForm(): void {
-    this.PrestateurForm = this.champ.group({
-
-      nom_presta: ['', Validators.required],
-      email: ['', Validators.required],
-      tel: ['', Validators.required],
-      profile: ['', Validators.required],
-      utilisateur: [this.currentUserId],
-      rolePrestateur: ['', Validators.required]      
-    });
   }
 
   getAllRolePrestateur(){
@@ -124,7 +114,7 @@ export class PrestateurComponent implements OnInit{
     } else {
       const newPresta: Prestateur = this.PrestateurForm.value;
       newPresta.rolePrestateur = { id: this.PrestateurForm.value.rolePrestateur } as RolePrestateur; 
-      newPresta.utilisateur = { id: this.PrestateurForm.value.utilisateur } as Utilisateur;
+      newPresta.utilisateur = { id: this.currentUserId } as Utilisateur;
   
       this.addPrestateur(newPresta);
     }

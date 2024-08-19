@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+
 .body{
     width: 100%;
     height: 100vh;
@@ -117,11 +118,11 @@
   color: rgba(0, 0, 0, 0.527);
 }
 
+
 .bloc2 .droite a{   
     text-decoration: none;
-    padding: 8px 15px;
+    padding: 15px 15px;
     border-radius: 10px;
-    margin: 9px;
     background-color: #ed6414;
     color: white;
 }
@@ -402,59 +403,3 @@ form{
 
 
 
-.cancel{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.747);
-    z-index: 4;
-    /* backdrop-filter: blur(4px); */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease-in-out;
-}
-.cancel-content{
-   width: 50%;
-   height: 35%;
-   padding: 3px;
-   background-color: var(--white);
-   box-shadow: 4px 4px 10px rgba(0,0,0,0.5);
-   border-radius: 10px;
-   display: flex;
-   flex-direction: column;
-}
-.cancel-content h1{
-    text-align: center;
-}
-.actions-annulation{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
-.actions-annulation button{
-    width: 8vw;
-    height:6vh;
-    border-radius: 8px;
-    color:var(--white);
-    border: none;
-    background-color: var(--orange);
-    font-size: medium;
-}
-
-
-
-
-
-
-.search-input {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .search-input.active {
-    background-color: #e0f7fa; /* Couleur de fond lorsque le champ est actif */
-  }
-  

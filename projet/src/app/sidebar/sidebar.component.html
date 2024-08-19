@@ -24,6 +24,8 @@
 
             <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/tasklist"><i class="fa-solid fa-list-check"></i><span>Task-list</span></a>
 
+            <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/billet"><i class="fa-solid fa-money-bill"></i><span>Billet</span></a>
+
             <a *ngIf="role === 'ADMIN' || role === 'PERSONNEL' || role === 'ORGANISATEUR'"  routerLink="/reglage" ><i class="fa-solid fa-gear"></i><span>Réglages</span></a> 
     </div>
     <div routerLink="" class="logout">

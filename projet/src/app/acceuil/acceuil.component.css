@@ -1,10 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
 
+
+
 .content-all{
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: row;
+    font-family:'Poppins', sans-serif ;
 }
 .contenu{
     height: 98vh;
@@ -103,13 +106,34 @@
     justify-content: space-between;
     margin-bottom: 1%;
 }
-.droite{
+.droite {
     height: 90%;
     width: 45%;
     display: flex;
     flex-direction: column;
     margin-right: 2%;
+    overflow-y: scroll; /* Active le défilement vertical */
+    scrollbar-width: none; /* Pour Firefox */
 }
+
+/* Pour masquer la scrollbar dans WebKit (Chrome, Safari, etc.) */
+.droite::-webkit-scrollbar {
+    width: 0; /* Cache la scrollbar */
+}
+
+.content1 {
+    width: 100%;
+    height: 11.5vh;
+    background-color: var(--white);
+    border-radius: 10px;
+    margin-bottom: 1%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.485);
+    overflow: hidden; /* Cache tout dépassement de contenu */
+}
+
 .title{
     width: 100%;
     height: 7vh;
@@ -122,17 +146,7 @@
 .title h2{
     padding-bottom: 1%;
 }
-.content1{
-    width: 100%;
-    height: 12vh;
-    background-color:var(--white);
-    border-radius: 10px;
-    margin-bottom: 1%;
-    display: flex;
-    flex-flow:row wrap ;
-    justify-content: space-between;
-    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.485);
-}
+
 .part1{
     width: 30%;
     height: 100%;
@@ -164,11 +178,9 @@
 }
 .nom-event h3{
     font-size: small;
-    margin-bottom: 0px;
+    margin-bottom: 1%;
 }
 .detail-gauche{
-    padding: none;
-    margin-top: 0px;
     width: 50%;
     display: flex;
     flex-direction: column;

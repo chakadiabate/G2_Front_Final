@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from "@angular/common";
-
+import { LieuService } from "../Service/Lieu.service";
 import { HttpClient } from "@angular/common/http";
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { SidebarComponent } from "../sidebar/sidebar.component";
@@ -9,7 +9,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { Lieu } from '../Models/utilisateurmodel.component';
 import { AuthService } from '../Service/auth.service';
 import Swal from 'sweetalert2';
-import { LieuService } from '../Service/lieu.service';
 
 @Component({
   selector: 'app-lieu',

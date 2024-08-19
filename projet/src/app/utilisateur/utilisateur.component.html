@@ -31,10 +31,12 @@
   
         <div class="bloc2">
             
-                <h1>Liste des Utilisateurs</h1>
+                <h2>Liste des Utilisateurs</h2>
             
             <div class="droite">
-                <a routerLink="/utilisateur" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Ajouter Utilisateur</span></a>
+                <a routerLink="/utilisateur" (click)="afficherEq()"><i class="fa-solid fa-plus"></i><span>Admin</span></a>
+                <a routerLink="/utilisateur" (click)="afficherGest()"><i class="fa-solid fa-plus"></i><span>Gest</span></a>
+                <a routerLink="/utilisateur" (click)="afficherOrg()"><i class="fa-solid fa-plus"></i><span>Org</span></a>
             </div>
         </div>
     
@@ -74,7 +76,7 @@
     <div class="ombre" *ngIf="visibleEq">
         <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()" >
             <div class="btnFermer" (click)="cacherEq()"><i class="fa-solid fa-xmark"></i></div>
-            <h1>{{ isEditing ? 'Modifier Utilisateur' : 'Ajouter Utilisateur' }}</h1>
+            <h1>{{ isEditing ? 'Modifier Admin' : 'Ajouter Admin' }}</h1>
             <div class="input">
                 <div class="Entree">
                     <label for="">Nom</label>
@@ -96,14 +98,87 @@
                     <label for="">Mot de passe</label>
                     <input placeholder="Mot de passe" formControlName="motDePasse" type="password">
                 </div>
-                <div class="Entree">
+                <!-- <div class="Entree">
                     <label for="">Roles</label>
                     <select id="roleId" formControlName="roleId" class="form-control">
                         <option *ngFor="let role of roles" [value]="role.id">{{ role.role }}</option>
                     </select>
-                </div>
+                </div> -->
             </div>
            <div class="btnAjouter" > <button  type="submit" (click)="cacherEq()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
+        </form>
+    </div>
+
+    <div class="ombre" *ngIf="visibleGest">
+        <form [formGroup]="gestForm" (ngSubmit)="onSubmitGest()" >
+            <div class="btnFermer" (click)="cacherGest()"><i class="fa-solid fa-xmark"></i></div>
+            <h1>{{ isEditing ? 'Modifier Gestionnaire' : 'Ajouter Gestionnaire' }}</h1>
+            <div class="input">
+                <div class="Entree">
+                    <label for="">Nom</label>
+                    <input type="text" placeholder="Nom" formControlName="nom">
+                </div>
+                <div class="Entree">
+                    <label for="">Prenom</label>
+                    <input type="text" placeholder="Prenom" formControlName="prenom">
+                </div>
+                <div class="Entree">
+                    <label for="">Email</label>
+                    <input placeholder="Email" formControlName="email" type="email">
+                </div>
+                <div class="Entree">
+                    <label for="">Telephone</label>
+                    <input type="number" placeholder="Numero" formControlName="telephone">
+                </div>
+                <div class="Entree">
+                    <label for="">Mot de passe</label>
+                    <input placeholder="Mot de passe" formControlName="motDePasse" type="password">
+                </div>
+                <!-- <div class="Entree">
+                    <label for="">Roles</label>
+                    <select id="roleId" formControlName="roleId" class="form-control">
+                        <option *ngFor="let role of roles" [value]="role.id">{{ role.role }}</option>
+                    </select>
+                </div> -->
+            </div>
+           <div class="btnAjouter" > <button  type="submit" (click)="cacherGest()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
+        </form>
+    </div>
+
+
+    <div class="ombre" *ngIf="visibleOrg">
+        <form [formGroup]="orgForm" (ngSubmit)="onSubmitOrg()" >
+            <div class="btnFermer" (click)="cacherOrg()"><i class="fa-solid fa-xmark"></i></div>
+            <h1>{{ isEditing ? 'Modifier Organisateur' : 'Ajouter Organisateur' }}</h1>
+            <div class="input">
+                <div class="Entree">
+                    <label for="">Nom</label>
+                    <input type="text" placeholder="Nom" formControlName="nom">
+                </div>
+                <div class="Entree">
+                    <label for="">Prenom</label>
+                    <input type="text" placeholder="Prenom" formControlName="prenom">
+                </div>
+                <div class="Entree">
+                    <label for="">Email</label>
+                    <input placeholder="Email" formControlName="email" type="email">
+                </div>
+                <div class="Entree">
+                    <label for="">Telephone</label>
+                    <input type="number" placeholder="Numero" formControlName="telephone">
+                </div>
+                <div class="Entree">
+                    <label for="">Mot de passe</label>
+                    <input placeholder="Mot de passe" formControlName="motDePasse" type="password">
+                </div>
+                <!-- <div class="Entree">
+                    <label for="">Roles</label>
+                    <select id="roleId" formControlName="roleId" class="form-control">
+                        <option *ngFor="let role of roles" [value]="role.id">{{ role.role }}</option>
+                    </select>
+                </div> -->
+            </div>
+           <div class="btnAjouter" > <button  type="submit" (click)="cacherOrg()">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
         </form>
     </div>
 

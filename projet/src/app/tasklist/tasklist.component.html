@@ -75,15 +75,8 @@
                         <option *ngFor="let priorite of Priorite" [value]="priorite.id">{{ priorite.priority }}</option>
                     </select>
                 </div>
-                <div class="Entree">
-                    <label for="">user_id</label>
-                    <select id="roleId" formControlName="utilisateur" class="form-control">
-                        <option *ngFor="let uti of Uti" [value]="uti.id">{{ uti.nom }}</option>
-                    </select>
-                </div>
-                
             </div>
-            <button type="submit" class="btnAjouter">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button>
+            <div class="btnAjouter"> <button type="submit">{{ isEditing ? 'Modifier' : 'Ajouter' }}</button></div>
         </form>
     </div>
 

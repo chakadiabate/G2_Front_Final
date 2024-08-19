@@ -32,6 +32,8 @@ import Swal from 'sweetalert2';
 export class UtilisateurComponent implements OnInit{
   
   utilisateurForm: FormGroup;
+  gestForm: FormGroup;
+  orgForm: FormGroup;
   utilisateurs: Utilisateur[] = [];
   filteredUtilisateurs: Utilisateur[] = [];
   roles: Role[] = [];
@@ -56,6 +58,20 @@ export class UtilisateurComponent implements OnInit{
       telephone: ['', Validators.required],
       motDePasse: ['', Validators.required],
       roleId: ['', Validators.required]
+    });
+    this.gestForm = this.fb.group({
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      telephone: ['', Validators.required],
+      motDePasse: ['', Validators.required]
+    });
+    this.orgForm = this.fb.group({
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      telephone: ['', Validators.required],
+      motDePasse: ['', Validators.required]
     });
   }
 
@@ -113,14 +129,48 @@ export class UtilisateurComponent implements OnInit{
     
     }
   }
-
+  onSubmitGest(): void {
+    // if (this.isEditing && this.currentUserId !== null) {
+    //   this.updateUser();
+    // } else {
+      const newUser: Utilisateur = this.gestForm.value;
+     // newUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+      
+    //  console.log('Roles:', this.roles);
+      //console.log('New user:', newUser);
+  
+      // const role = this.roles.find(r => r.id === newUser.role.id)?.role;
+      // console.log('Role:', role);
+      // console.log('Role ID:', newUser.role.id);
+      this.addPersonnel(newUser);
+    
+    //}
+  }
+  onSubmitOrg(): void {
+    // if (this.isEditing && this.currentUserId !== null) {
+    //   this.updateUser();
+    // } else {
+      const newUser: Utilisateur = this.orgForm.value;
+      // newUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+      
+      // console.log('Roles:', this.roles);
+      // console.log('New user:', newUser);
+  
+      // const role = this.roles.find(r => r.id === newUser.role.id)?.role;
+      // console.log('Role:', role);
+      // console.log('Role ID:', newUser.role.id);
+      this.addOrganisateur(newUser);
+    
+    // }
+  }
+ 
   
   
   //=========Logique d'ajout des utilisateurs=============
   
   addAdmin(newUser: Utilisateur): void {
-    newUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
-    this.utilisateurService.createUser(newUser).subscribe(
+   // newUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+    this.utilisateurService.createAdmin(newUser).subscribe(
       data => {
         this.utilisateurs.push(data);
         this.filteredUtilisateurs.push(data); // Ajoutez également à la liste filtrée
@@ -137,7 +187,7 @@ export class UtilisateurComponent implements OnInit{
       data => {
         this.utilisateurs.push(data);
         this.filteredUtilisateurs.push(data);
-        this.utilisateurForm.reset();
+        this.gestForm.reset();
       },
       error => console.error(error)
     );
@@ -146,11 +196,11 @@ export class UtilisateurComponent implements OnInit{
   addOrganisateur(newOrg: Utilisateur): void {
     // Logique spécifique pour ajouter un organisateur
     console.log("Adding organisateur");
-    this.utilisateurService.createUser(newOrg).subscribe(
+    this.utilisateurService.createOrga(newOrg).subscribe(
       data => {
         this.utilisateurs.push(data);
         this.filteredUtilisateurs.push(data);
-        this.utilisateurForm.reset();
+        this.orgForm.reset();
       },
       error => console.error(error)
     );
@@ -240,12 +290,26 @@ export class UtilisateurComponent implements OnInit{
   visible = false;
    visibleSup = false;
    visibleEq = false;
+   visibleGest = false;
+   visibleOrg = false;
 
   afficher(){
     this.visible=true;
   }
   cacher() {
     this.visible=false;
+  }
+  afficherGest(){
+    this.visibleGest=true;
+  }
+  cacherGest() {
+    this.visibleGest=false;
+  }
+  afficherOrg(){
+    this.visibleOrg=true;
+  }
+  cacherOrg() {
+    this.visibleOrg=false;
   }
   afficherSup(){
     this.visibleSup=true;

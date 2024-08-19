@@ -40,11 +40,12 @@ export class TasklistComponent implements OnInit{
   isEditing : boolean = false;
   currentTaskId: number | null = null;
   currentUser:any;
+  currentUserId: number | null = null;
   constructor(
     private tasklistservice: TasklistService,
+    private authservice:AuthService,
     private eventservice: EventServiceService,
     private userservice: UtilisateurServiceService,
-    private authservice: AuthService,
     private champ: FormBuilder
   ) {
     
@@ -63,6 +64,7 @@ export class TasklistComponent implements OnInit{
     this.authservice.getCurrentUser().subscribe({
 		  next: (data) => {
 			this.currentUser = data;
+      this.currentUserId=data.id;
 		  },
 		  error: (err) => {
 			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
@@ -142,7 +144,7 @@ export class TasklistComponent implements OnInit{
           ...this.taskForm.value,
           evenement: { id: this.taskForm.value.evenement } as Evenement,
           priority: { id: this.taskForm.value.priority } as priority_task,
-          utilisateur: { id: this.taskForm.value.utilisateur } as Utilisateur
+          utilisateur: { id: this.currentUserId} as Utilisateur
         };
     
         const evenement = this.Even.find(e => e.id === newTask.evenement.id)?.nom
@@ -184,7 +186,7 @@ export class TasklistComponent implements OnInit{
     if (this.currentTaskId !== null) {
       const updatedTask: Task = this.taskForm.value;
       updatedTask.evenement= { id: this.taskForm.value.evenement } as Evenement; // Map roleId to role object
-      updatedTask.utilisateur= { id: this.taskForm.value.utilisateur } as Utilisateur;
+      //updatedTask.utilisateur= { id: this.currentUserId } as Utilisateur;
       updatedTask.priority= { id: this.taskForm.value.priority } as priority_task;
       this.tasklistservice.updateTask(this.currentTaskId, updatedTask).subscribe(
         data => {

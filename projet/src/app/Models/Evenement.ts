@@ -1,5 +1,5 @@
 import { TypeEvent } from "./TypeEvent";
-import { Utilisateur } from "./Utilisateur";
+import { Utilisateur } from "./utilisateurmodel.component"; 
 import { category } from "./Category";
 import { Time } from "@angular/common";
 
@@ -14,7 +14,7 @@ export interface Evenement {
   lieu: String;
   // nombrePlace: number;
   typeevent: TypeEvent;
-  // utilisateur: Utilisateur;
+  utilisateur: Utilisateur;
   category: category;
 }
 

@@ -28,6 +28,7 @@
 // import { BehaviorSubject } from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { AuthService } from '../Service/auth.service';
+import { Utilisateur } from '../Models/utilisateurmodel.component';
 
   @Component({
     selector: 'app-evenement',
@@ -57,6 +58,7 @@ import { AuthService } from '../Service/auth.service';
     typeEvent: TypeEvent[] = [];
     Lieu: Lieu[] = [];
     currentUserId: number | null = null;
+    currentEvenId: number | null = null;
     // types: any[] = [];
     // Utilis: Utilisateur[] = [];
     currentUser:any;
@@ -71,8 +73,8 @@ import { AuthService } from '../Service/auth.service';
     constructor(
       private eventService: EventServiceService,
       private formbuilder: FormBuilder,
-      private activatedRoute: ActivatedRoute,
       private authservice:AuthService,
+      private activatedRoute: ActivatedRoute,
       private router: Router
     ) {
       this.formGroup = this.formbuilder.group({
@@ -85,7 +87,7 @@ import { AuthService } from '../Service/auth.service';
         lieu: ['', [Validators.required]],
         description: ['', [Validators.required]],
         typeevent: [null, [Validators.required]],
-        // users_id: [null, [Validators.required]],
+        utilisateur: [null, [Validators.required]],
         category: [null, [Validators.required]],
       });
 
@@ -101,12 +103,12 @@ import { AuthService } from '../Service/auth.service';
       this.authservice.getCurrentUser().subscribe({
         next: (data) => {
         this.currentUser = data;
+        this.currentUserId=data.id
         },
         error: (err) => {
         console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
         }
       });
-     
       this.getLieu();
       this.getEvents();
       this.getTypeEvent();
@@ -143,7 +145,7 @@ import { AuthService } from '../Service/auth.service';
         this.evenement = data;
       });
     }
-
+    
     getLieu() {
       return this.eventService.getLieu().subscribe((data) => {
         this.Lieu = data;
@@ -163,7 +165,7 @@ import { AuthService } from '../Service/auth.service';
     }
 
     onSubmit(): void {
-      if (this.edit && this.currentUserId !== null) {
+      if (this.edit && this.currentEvenId !== null) {
         this.updateEvent();
       } else {
 
@@ -176,6 +178,7 @@ import { AuthService } from '../Service/auth.service';
           id: this.formGroup.value.typeevent.id,
           type: this.formGroup.value.typeevent.type,
         } as TypeEvent; 
+        Evene.utilisateur = { id: this.currentUserId } as Utilisateur;
         
         this.createEvent(Evene);
         this.getEvents();
@@ -202,14 +205,14 @@ import { AuthService } from '../Service/auth.service';
     }
 
     updateEvent(): void {
-      if (this.currentUserId !== null) {
+      if (this.currentEvenId !== null) {
         const updatedEvent: Evenement = this.formGroup.value;
         // updatedUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
-        this.eventService.UpdateEvent(this.currentUserId, updatedEvent)
+        this.eventService.UpdateEvent(this.currentEvenId, updatedEvent)
           .subscribe(
             (data) => {
               const index = this.evenement.findIndex(
-                (u) => u.id === this.currentUserId
+                (u) => u.id === this.currentEvenId
               );
               if (index !== -1) {
                 this.evenement[index] = data;
@@ -217,7 +220,7 @@ import { AuthService } from '../Service/auth.service';
               }
               this.formGroup.reset();
               this.edit = false;
-              this.currentUserId = null;
+              this.currentEvenId = null;
             },
             (error) => console.error(error)
           );
@@ -228,7 +231,7 @@ import { AuthService } from '../Service/auth.service';
 
     editEvent(evenement: Evenement): void {
       this.edit = true;
-      this.currentUserId = evenement.id !== undefined ? evenement.id : null;
+      this.currentEvenId = evenement.id !== undefined ? evenement.id : null;
       this.formGroup.patchValue({
         ...evenement,
       });

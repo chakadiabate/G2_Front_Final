@@ -13,6 +13,7 @@ import { AcceuilComponent } from './acceuil/acceuil.component';
 import { LoginComponent } from './login/login.component';
 import { TasklistComponent } from './tasklist/tasklist.component';
 import { PrestateurComponent } from './prestateur/prestateur.component';
+import { BilletComponent } from './billet/billet.component';
 
 
 
@@ -26,7 +27,8 @@ export const routes: Routes = [
     { path: 'utilisateur', component: UtilisateurComponent },
     { path: 'reglage', component: ReglageComponent },
     { path: 'tasklist', component: TasklistComponent },
-    { path: 'prestateur', component: PrestateurComponent }
+    { path: 'prestateur', component: PrestateurComponent },
+    { path: 'billet', component: BilletComponent }
     
     
 ];

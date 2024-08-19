@@ -49,6 +49,10 @@ export class EventServiceService {
     return this.Http.get<Evenement[]>(`${this.url}/afficher`);
   }
 
+  // Méthode pour récupérer les événements d'un utilisateur spécifique
+  getEventsByUserId(id: number): Observable<Evenement[]> {
+    return this.Http.get<Evenement[]>(`${this.url}/EventParOrg/${id}`);
+  }
   CreateEvent(evenement: Evenement): Observable<any> {
     return this.Http.post<any>(`${this.url}/addEvent`, evenement);
   }
