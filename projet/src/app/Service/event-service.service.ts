@@ -33,6 +33,10 @@ export class EventServiceService {
     return this.Http.get<TypeEvent[]>(`${this.urlType}/all`);
   }
 
+  CreerEvent(evenement: FormData): Observable<any> {
+    return this.Http.post<any>(`${this.url}/addEvent`, evenement);
+  }
+
   CreateTypeEvent(type: TypeEvent): Observable<any> {
     return this.Http.post<any>(`${this.urlType}/createtype`, type);
   }

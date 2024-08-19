@@ -16,6 +16,7 @@ export interface Evenement {
   typeevent: TypeEvent;
   utilisateur: Utilisateur;
   category: category;
+  image:string
 }
 
 export class Lieu {

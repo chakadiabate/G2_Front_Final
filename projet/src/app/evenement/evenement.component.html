@@ -48,6 +48,7 @@
                 <td>{{ event.datedebut }}</td>
                 <td>{{ event.datefin }}</td>
                 <td>{{ event.lieu }}</td>
+                <!-- <td><img [src]="'data:image/png;base64,'+event.image" style="width: 100px; height: 100px;" alt=""></td> -->
                 <td>{{ event.typeevent.type }}</td>
                 <td>{{ event.category.category }}</td>
                 <td>{{ event.description }}</td>
@@ -71,10 +72,7 @@
                     <label for="">Nom</label>
                     <input type="text" placeholder="Nom de l'événement" formControlName="nom" required="">
                 </div>
-                <div class="Entree">
-                    <label for="">Date de création</label>
-                    <input type="date" formControlName="date">
-                </div>
+                
 
                 <div class="Entree">
                     <label for="">Heure</label>
@@ -90,10 +88,10 @@
                     <label for="">Date de fin</label>
                     <input type="date" formControlName="datefin">
                 </div>
-                <!-- <div class="Entree">
-                    <label for="">Lieu</label>
-                    <input type="text" formControlName="lieu">
-                </div> -->
+                <div class="Entree">
+                    <label for="">Image</label>
+                    <input type="file" (change)="onFileChange($event)" formControlName="image">
+                </div>
 
                 <div class="Entree">
                     <label for="">Lieu</label>

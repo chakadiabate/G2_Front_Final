@@ -80,15 +80,16 @@ import { Utilisateur } from '../Models/utilisateurmodel.component';
       this.formGroup = this.formbuilder.group({
         // id: [1, [Validators.required]],
         nom: ['', [Validators.required]],
-        date: ['', [Validators.required]],
+        // date: ['', [Validators.required]],
         heure: ['', [Validators.required]],
         datedebut: ['', [Validators.required]],
         datefin: ['', [Validators.required]],
         lieu: ['', [Validators.required]],
         description: ['', [Validators.required]],
         typeevent: [null, [Validators.required]],
-        utilisateur: [null, [Validators.required]],
+        // utilisateur: [null, [Validators.required]],
         category: [null, [Validators.required]],
+        image: [null, [Validators.required]],
       });
 
       this.TypeFormGroup = this.formbuilder.group({
@@ -114,6 +115,83 @@ import { Utilisateur } from '../Models/utilisateurmodel.component';
       this.getTypeEvent();
       this.getCat();
     }
+
+
+    onFileChange(event: any): void {
+      const file = event.target.files[0];
+      if (file) {
+        this.formGroup.patchValue({ image: file });
+        this.formGroup.get('image')?.updateValueAndValidity();
+      }
+    }
+
+
+
+    onSubmit(): void {
+      if (this.edit && this.currentEvenId !== null) {
+        this.updateEvent();
+      } else {
+
+        this.AddEvent();
+
+        // const Evene: Evenement = this.formGroup.value;
+        // Evene.category = {
+        //   id: this.formGroup.value.category.id,
+        //   category: this.formGroup.value.category.category,
+        // } as category; // Map roleId to role object
+        // Evene.typeevent = {
+        //   id: this.formGroup.value.typeevent.id,
+        //   type: this.formGroup.value.typeevent.type,
+        // } as TypeEvent; 
+        // Evene.utilisateur = { id: this.currentUserId } as Utilisateur;
+        
+        // this.createEvent(Evene);
+        // this.getEvents();
+
+      }
+      
+      // this.router.navigateByUrl('/tache');
+    }
+
+
+    AddEvent(){
+      if (this.formGroup.valid) {
+        const formValue = this.formGroup.value;
+        const formData = new FormData();
+        const eventPayload = { ...formValue };
+
+        // Retirer le champ image de l'objet JSON
+        delete eventPayload.image;
+
+        formData.append('evenement', JSON.stringify(eventPayload));
+        formData.append('image', this.formGroup.get('image')?.value);
+
+        this.eventService.CreerEvent(formData).subscribe({
+          next: (data) => {
+            this.evenement.push(data);
+            this.formGroup.reset();
+            this.visible = false;
+            this.getEvents();
+          },
+          error: (err) => {
+            console.error("Erreur lors de la création de l'événement:", err);
+          },
+        });
+      } else {
+        console.log('Formulaire invalide');
+      }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
     createTypeEvent() {
       this.eventService.CreateTypeEvent(this.TypeFormGroup.value).subscribe({
@@ -164,45 +242,23 @@ import { Utilisateur } from '../Models/utilisateurmodel.component';
       });
     }
 
-    onSubmit(): void {
-      if (this.edit && this.currentEvenId !== null) {
-        this.updateEvent();
-      } else {
+    
 
-        const Evene: Evenement = this.formGroup.value;
-        Evene.category = {
-          id: this.formGroup.value.category.id,
-          category: this.formGroup.value.category.category,
-        } as category; // Map roleId to role object
-        Evene.typeevent = {
-          id: this.formGroup.value.typeevent.id,
-          type: this.formGroup.value.typeevent.type,
-        } as TypeEvent; 
-        Evene.utilisateur = { id: this.currentUserId } as Utilisateur;
-        
-        this.createEvent(Evene);
-        this.getEvents();
-
-      }
-      
-      // this.router.navigateByUrl('/tache');
-    }
-
-    createEvent(event: Evenement) {
-      this.eventService.CreateEvent(event).subscribe({
-        next: (data) => {
-          this.evenement.push(data);
-          this.formGroup.reset();
-          this.visible = false;
-          this.getEvents();
-        },
-        error: (err) => {
-          console.error("Erreur lors de la création de l'événement:", err);
-        },
-      });
-      this.visible = false;
-      this.getEvents();
-    }
+    // createEvent(event: Evenement) {
+    //   this.eventService.CreateEvent(event).subscribe({
+    //     next: (data) => {
+    //       this.evenement.push(data);
+    //       this.formGroup.reset();
+    //       this.visible = false;
+    //       this.getEvents();
+    //     },
+    //     error: (err) => {
+    //       console.error("Erreur lors de la création de l'événement:", err);
+    //     },
+    //   });
+    //   this.visible = false;
+    //   this.getEvents();
+    // }
 
     updateEvent(): void {
       if (this.currentEvenId !== null) {
