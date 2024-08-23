@@ -47,7 +47,7 @@
                 
                     <td>
                         <i  (click)="afficherEq()" (click)="editPresta(prestateur)"  style="color: rgb(53, 53, 238);" class="fa-solid fa-pen-to-square"></i>
-                        <i  *ngIf="prestateur.id !== undefined" (click)="deletePresta(prestateur.id)" style="color: red;" class="fa-solid fa-trash"></i>
+                        <i  *ngIf="prestateur.id !== undefined" (click)="deletePresta(prestateur.id)"  style="color: red;" class="fa-solid fa-trash"></i>
                     </td>
                   </tr>
             </table>
@@ -75,12 +75,12 @@
                     <label for="">Profile</label>
                     <input type="text" placeholder="profile" formControlName="profile">
                 </div>
-                <div class="Entree">
+                <!-- <div class="Entree">
                     <label for="">Organisateur</label>
                     <select id="utilisateurId" formControlName="utilisateur" class="form-control">
                       <option *ngFor="let orga of Orga" [value]="orga.id">{{ orga.nom }}</option>
                     </select>
-                  </div>
+                  </div> -->
                   <div class="Entree">
                     <label for="">RolePresta</label>
                     <select id="rolePrestateurId" formControlName="rolePrestateur" class="form-control">

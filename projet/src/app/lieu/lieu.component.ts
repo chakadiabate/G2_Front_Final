@@ -8,6 +8,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Lieu } from '../Models/utilisateurmodel.component';
 import { AuthService } from '../Service/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lieu',
@@ -122,13 +123,39 @@ export class LieuComponent implements OnInit {
   }
 
   deleteLieu(id: number): void {
-    this.lieuservice.deleteLieu(id).subscribe(
-      () => {
-        this.Lieux = this.Lieux.filter(l => l.id !== id);
-        this.filteredLieu = this.filteredLieu.filter(l => l.id !== id); // Update the filtered list as well
-      },
-      error => console.error(error)
-    );
+
+    Swal.fire({
+      title: 'Êtes-vous sûr?',
+      text: 'Vous ne pourrez pas annuler cette action!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le!',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.lieuservice.deleteLieu(id).subscribe(
+          () => {
+            this.Lieux = this.Lieux.filter(u => u.id !== id);
+            Swal.fire(
+              'Supprimé!',
+              'Le lieu a été supprimé.',
+              'success'
+            );
+          },
+          error => {
+            console.error(error);
+            Swal.fire(
+              'Supprimer avec succes!',
+              'Le lieu a été supprimé.',
+              'success'
+            );
+          }
+        );
+      }
+    });
+
   }
 
   filterLieu(): void {

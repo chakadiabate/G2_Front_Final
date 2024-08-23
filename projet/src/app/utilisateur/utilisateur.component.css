@@ -117,11 +117,11 @@
   color: rgba(0, 0, 0, 0.527);
 }
 
-
 .bloc2 .droite a{   
     text-decoration: none;
-    padding: 15px 15px;
+    padding: 8px 15px;
     border-radius: 10px;
+    margin: 9px;
     background-color: #ed6414;
     color: white;
 }

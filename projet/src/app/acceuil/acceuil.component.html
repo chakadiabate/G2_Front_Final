@@ -24,7 +24,7 @@
         <div class="gauche">
             <div class="gauche-left">
                 <div class="name">
-                    <p>Bonjour M Barry</p>
+                    <p>Bonjour {{ currentUser.prenom }} {{ currentUser.nom }}</p>
                     <h6>Ayez une bonne journee</h6>
                 </div>
                 <div class="calendar">
@@ -52,9 +52,9 @@
                       </div>
                       <div class="detail-event">
                           <div  class="detail-gauche">
-                            <div  class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span></span></div>
-                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
-                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
+                            <div  class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>{{ ev.lieu }}</span></div>
+                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>{{ ev.date }}</span></div>
+                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>{{ ev.heure }}</span></div>
                           </div>
                           <div class="detail-droite">
                               <button>Detail</button>
@@ -62,46 +62,7 @@
                       </div>
                   </div>
             </div>
-            <div class="content2">
-                <div class="part1">
-                    <img src="/assets/images/bob.png" alt="">
-                  </div>
-                  <div class="part2">
-                      <div class="nom-event">
-                          <h3>Soon to moon Festival Soon 2</h3>
-                      </div>
-                      <div class="detail-event">
-                          <div class="detail-gauche">
-                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
-                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
-                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
-                          </div>
-                          <div class="detail-droite">
-                              <button>Detail</button>
-                          </div>
-                      </div>
-                  </div>
-            </div>
-            <div class="content3">
-                <div class="part1">
-                    <img src="/assets/images/bob.png" alt="">
-                  </div>
-                  <div class="part2">
-                      <div class="nom-event">
-                          <h3>Soon to moon Festival Soon 2</h3>
-                      </div>
-                      <div class="detail-event">
-                          <div class="detail-gauche">
-                            <div class="lieu"><i  class="fa-solid fa-place-of-worship"></i><span>Lieu</span></div>
-                            <div class="date"><i class="fa-solid fa-calendar-days"></i><span>10/06/2024</span></div>
-                            <div class="heure"><i class="fa-solid fa-calendar-days"></i><span>20h45</span></div>
-                          </div>
-                          <div class="detail-droite">
-                              <button>Detail</button>
-                          </div>
-                      </div>
-                  </div>
-            </div>
+           
         </div>
     </div>
     <div class="fin">
@@ -131,9 +92,9 @@
              </div>
         </div>
         <div class="right">
-            <div class="graphe">
+            <!-- <div class="graphe">
                 <canvasjs-chart [options]="chartOptions" (chartInstance)="getChartInstance($event)"></canvasjs-chart>    
-            </div> 
+            </div>  -->
         </div>
     </div>
 </div> 

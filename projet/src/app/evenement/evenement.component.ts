@@ -1,315 +1,433 @@
-
-import { NgFor, NgIf } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import Swal from 'sweetalert2';
-import { AuthService } from '../Service/auth.service';
-import {
-  Router,
-  ActivatedRoute,
-  RouterOutlet,
-  RouterLink,
-  RouterModule,
-} from '@angular/router';
-import { EventServiceService } from '../S/event-service.service';
-// import { CardModule } from 'primeng/card';
-// import { ButtonModule } from 'primeng/button';
-import { Evenement } from '../M/Evenement';
-// import { MessageService } from 'primeng/api';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { category } from '../M/Category';
-import { TypeEvent } from '../M/TypeEvent';
-//import { Utilisateur } from '../M/Utilisateur';
-
-import { SidebarComponent } from '../sidebar/sidebar.component';
-
-@Component({
-  selector: 'app-evenement',
-  standalone: true,
-
-  imports: [
-     NgIf,
-     RouterOutlet,
-     NgFor,
-     //CardModule,
+  import { NgFor, NgIf } from '@angular/common';
+  import { Component, NgModule } from '@angular/core';
+  import Swal from 'sweetalert2';
+  import {
+    Router,
+    ActivatedRoute,
+    RouterOutlet,
+    RouterLink,
     RouterModule,
-    ReactiveFormsModule,
+  } from '@angular/router';
+ 
+  import { EventServiceService } from '../Service/event-service.service';
+  // import { CardModule } from 'primeng/card';
+  
+
+  // import { Evenement, Lieu } from '../Modeles/Evenement';
+  import { Evenement } from '../Models/Evenement'; 
+  import {
+    FormBuilder,
+    FormGroup,
     FormsModule,
-    // ButtonModule,
-    SidebarComponent
-  ],
+    ReactiveFormsModule,
+    Validators,
+  } from '@angular/forms';
+  import { category } from '../Models/Category'; 
+  import { TypeEvent } from '../Models/TypeEvent'; 
+  import { Lieu } from '../Models/Evenement';
+// import { BehaviorSubject } from 'rxjs';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { AuthService } from '../Service/auth.service';
+import { Utilisateur } from '../Models/utilisateurmodel.component';
+
+  @Component({
+    selector: 'app-evenement',
+    standalone: true,
+    imports: [
+      NgIf,
+      RouterOutlet,
+      NgFor,
+      RouterModule,
+      ReactiveFormsModule,
+      FormsModule,
+      SidebarComponent,
+    ],
+
+    templateUrl: './evenement.component.html',
+    styleUrl: './evenement.component.css',
+  })
+  export class EvenementComponent {
+    visible = false;
+    sup = false;
+    catpop = false;
+    typepop = false;
+
+    // private typesSubject = new BehaviorSubject<any[]>([]);
+    evenement: Evenement[] = [];
+    CatEvent: category[] = [];
+    typeEvent: TypeEvent[] = [];
+    Lieu: Lieu[] = [];
+    currentUserId: number | null = null;
+    currentEvenId: number | null = null;
+    // types: any[] = [];
+    // Utilis: Utilisateur[] = [];
+    currentUser:any;
+    formGroup!: FormGroup;
+    TypeFormGroup!: FormGroup;
+
+    CatFormGroup!: FormGroup;
+
+    isSaveInProgress: boolean = false;
+    edit: boolean = false;
+
+    constructor(
+      private eventService: EventServiceService,
+      private formbuilder: FormBuilder,
+      private authservice:AuthService,
+      private activatedRoute: ActivatedRoute,
+      private router: Router
+    ) {
+      this.formGroup = this.formbuilder.group({
+        // id: [1, [Validators.required]],
+        nom: ['', [Validators.required]],
+        // date: ['', [Validators.required]],
+        heure: ['', [Validators.required]],
+        datedebut: ['', [Validators.required]],
+        datefin: ['', [Validators.required]],
+        lieu: ['', [Validators.required]],
+        description: ['', [Validators.required]],
+        typeevent: [null, [Validators.required]],
+        // utilisateur: [null, [Validators.required]],
+        category: [null, [Validators.required]],
+        image: [null, [Validators.required]],
+      });
+
+      this.TypeFormGroup = this.formbuilder.group({
+        type: ['', [Validators.required]],
+      });
+      this.CatFormGroup = this.formbuilder.group({
+        category: ['', [Validators.required]],
+      });
+    }
+
+    ngOnInit(): void {
+      this.authservice.getCurrentUser().subscribe({
+        next: (data) => {
+        this.currentUser = data;
+        this.currentUserId=data.id
+        },
+        error: (err) => {
+        console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
+        }
+      });
+      this.getLieu();
+      this.getEvents();
+      this.getTypeEvent();
+      this.getCat();
+    }
 
 
-  templateUrl: './evenement.component.html',
-  styleUrl: './evenement.component.css',
-})
-export class EvenementComponent {
-  visible = false;
-
-  sup = false;
-  catpop = false;
-  typepop = false;
-
-  evenement: Evenement[] = [];
-  CatEvent: category[] = [];
-  typeEvent: TypeEvent[] = [];
-  currentUserId: number | null = null;
-  // Utilis: Utilisateur[] = [];
-
-  formGroup!: FormGroup;
-  isSaveInProgress: boolean = false;
-  edit: boolean = false;
-  currentUser:any;
-  constructor(
-    private eventService: EventServiceService,
-    private authservice: AuthService,
-    private formbuilder: FormBuilder,
-    // private messageservice: MessageService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    this.formGroup = this.formbuilder.group({
-      // id: [1, [Validators.required]],
-      nom: ['', [Validators.required]],
-      date: ['', [Validators.required]],
-      datedebut: ['', [Validators.required]],
-      lieu: ['', [Validators.required]],
-      datefin: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      typeevent: [null, [Validators.required]],
-      // users_id: [null, [Validators.required]],
-      category: [null, [Validators.required]],
-    });
-  }
-
-  ngOnInit(): void {
-    this.authservice.getCurrentUser().subscribe({
-		  next: (data) => {
-			this.currentUser = data;
-		  },
-		  error: (err) => {
-			console.error('Erreur lors de la récupération des détails de l\'utilisateur', err);
-		  }
-		});
-    // let id = this.activatedRoute.snapshot.paramMap.get('id');
-    // if (id !== 'addEvent') {
-    //   this.edit = true;
-    //   // this.getEventById(+id!);
-    // }
-    this.getEvents();
-    this.getTypeEvent();
-    this.getCat();
-  }
-
-  getTypeEvent() {
-    return this.eventService.getType().subscribe((data) => {
-      this.typeEvent = data;
-    });
-  }
-
-  getCat() {
-    return this.eventService.getCat().subscribe((data) => {
-      this.CatEvent = data;
-    });
-  }
-
-  onSubmit(): void {
-    // if (this.isEditing && this.currentUserId !== null) {
-    //   this.updateUser();
-    // } else {}
-    const Evene: Evenement = this.formGroup.value;
-    Evene.category = {
-      id: this.formGroup.value.category.id,
-      category: this.formGroup.value.category.category,
-    } as category; // Map roleId to role object
-    Evene.typeevent = {
-      id: this.formGroup.value.typeevent.id,
-      type: this.formGroup.value.typeevent.type,
-    } as TypeEvent; // Map roleId to role object
-
-    // console.log('Roles:', this.roles);
-    // console.log('New user:', newUser);
-
-    // const typeE = this.typeEvent.find((r) => r.id === Evene.typeevent.id)?.type;
-    // const catE = this.CatEvent.find((r) => r.id === Evene.category.id)?.category;
-
-    // const evene: Evenement = {
-    //   ...this.formGroup.value,
-    //   typeevent: { Evene., type: selectedTypeEvent.type },
-    //   category: {
-    //     id: selectedCategory.id,
-    //     category: selectedCategory.category,
-    //   },
-    // };
-
-    this.createEvent(Evene);
-    // this.router.navigateByUrl('/tache');
-  }
-
-  createEvent(event: Evenement) {
-    // event.category = { id: this.formGroup.value.category } as category; // Map roleId to role object
-    // event.typeevent = { id: this.formGroup.value.typeevent } as TypeEvent; // Map roleId to role object
-    this.eventService.CreateEvent(event).subscribe({
-      next: (data) => {
-        this.evenement.push(data);
-        this.formGroup.reset();
-        this.router.navigateByUrl('/evenement');
-      },
-      error: (err) => {
-        // Gérer les erreurs ici, par exemple :
-        console.error("Erreur lors de la création de l'événement:", err);
-      },
-    });
-  }
-
-  getEvents() {
-    return this.eventService.getEvents().subscribe((data) => {
-      this.evenement = data;
-    });
-  }
-
-  editUser(evenement: Evenement): void {
-    this.edit = true;
-    this.currentUserId = evenement.id !== undefined ? evenement.id : null;
-    this.formGroup.patchValue({
-      ...evenement,
-    });
-  }
-
-  deleteUser(id: number): void {
-    Swal.fire({
-      title: 'Êtes-vous sûr?',
-      text: 'Vous ne pourrez pas annuler cette action!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui, supprimez-le!',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.eventService.DeleteEvent(id).subscribe(
-          () => {
-            this.evenement = this.evenement.filter((u) => u.id !== id);
-            // Mettez à jour aussi la liste filtrée
-            Swal.fire('Supprimé!', "L'utilisateur a été supprimé.", 'success');
-          },
-          (error) => {
-            console.error(error);
-            Swal.fire(
-              'Supprimer avec succes!',
-              "L'utilisateur a été supprimé.",
-              'success'
-            );
-          }
-        );
+    onFileChange(event: any): void {
+      const file = event.target.files[0];
+      if (file) {
+        this.formGroup.patchValue({ image: file });
+        this.formGroup.get('image')?.updateValueAndValidity();
       }
-    });
-  }
+    }
 
-  // deleteUser(id: number): void {
-  //   this.eventService.DeleteEvent(id).subscribe(
-  //     () => {
-  //       this.evenement = this.evenement.filter((u) => u.id !== id);
 
-  //     },
-  //     (error) => console.error(error)
-  //   );
-  // }
 
-  // createEvent() {
-  //   if (this.formGroup.invalid) {
-  //     this.messageservice.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Vérifiez tous les champs',
-  //     });
-  //     this.router.navigateByUrl('/evenement');
-  //     return;
-  //   }
+    onSubmit(): void {
+      if (this.edit && this.currentEvenId !== null) {
+        this.updateEvent();
+      } else {
 
-  //   const eventData = this.prepareEventData(this.formGroup.value);
-  //   this.isSaveInProgress = true;
-  //   this.eventService.CreateEvent(eventData).subscribe({
-  //     next: () => {
-  //       this.isSaveInProgress = false;
-  //       this.router.navigateByUrl('/evenement');
-  //     },
-  //   });
-  // }
+        this.AddEvent();
 
-  // updateEvent() {
-  //   if (this.formGroup.invalid) {
-  //     this.messageservice.add({
-  //       severity: 'error',
-  //       summary: 'Error',
-  //       detail: 'Remplissez tous les champs',
-  //     });
-  //     return;
-  //   }
+        // const Evene: Evenement = this.formGroup.value;
+        // Evene.category = {
+        //   id: this.formGroup.value.category.id,
+        //   category: this.formGroup.value.category.category,
+        // } as category; // Map roleId to role object
+        // Evene.typeevent = {
+        //   id: this.formGroup.value.typeevent.id,
+        //   type: this.formGroup.value.typeevent.type,
+        // } as TypeEvent; 
+        // Evene.utilisateur = { id: this.currentUserId } as Utilisateur;
+        
+        // this.createEvent(Evene);
+        // this.getEvents();
 
-  //   const eventData = this.prepareEventData(this.formGroup.value);
-  //   this.isSaveInProgress = true;
-  //   this.eventService.UpdateEvent(eventData).subscribe({
-  //     next: () => {
-  //       this.messageservice.add({
-  //         severity: 'success',
-  //         summary: 'Succès',
-  //         detail: 'Événement mis à jour avec succès',
-  //       });
-  //       this.isSaveInProgress = false;
-  //     },
-  //     error: () => {
-  //       this.isSaveInProgress = false;
-  //       this.messageservice.add({
-  //         severity: 'error',
-  //         summary: 'Erreur',
-  //         detail: "Erreur lors de la mise à jour de l'événement",
-  //       });
-  //     },
-  //   });
-  // }
+      }
+      
+      // this.router.navigateByUrl('/tache');
+    }
 
-  // prepareEventData(formData: any) {
-  //   const { typeevent, category, utilisateur, ...rest } = formData;
-  //   return {
-  //     ...rest,
-  //     typeevent: { id: typeevent.id },
-  //     // users_id: { users_id: 1 },
-  //     category: { id: category.id },
-  //   };
-  // }
 
-  catpopup() {
-    this.typepop = false;
-    this.catpop = !this.catpop;
-  }
+    AddEvent(){
+      if (this.formGroup.valid) {
+        const formValue = this.formGroup.value;
+        const formData = new FormData();
+        const eventPayload = { ...formValue };
 
-  typepopup() {
-    this.catpop = false;
-    this.typepop = !this.typepop;
+        // Retirer le champ image de l'objet JSON
+        delete eventPayload.image;
+
+        formData.append('evenement', JSON.stringify(eventPayload));
+        formData.append('image', this.formGroup.get('image')?.value);
+
+        this.eventService.CreerEvent(formData).subscribe({
+          next: (data) => {
+            this.evenement.push(data);
+            this.formGroup.reset();
+            this.visible = false;
+            this.getEvents();
+          },
+          error: (err) => {
+            console.error("Erreur lors de la création de l'événement:", err);
+          },
+        });
+      } else {
+        console.log('Formulaire invalide');
+      }
   }
 
 
-  afficher() {
-    this.visible = true;
-  }
 
 
-  cacher() {
-    this.visible = false;
-  }
-  ASup() {
-    this.sup = true;
-  }
 
-  CSup() {
-    this.sup = false;
-  }
 
-}
+
+
+
+
+
+
+    createTypeEvent() {
+      this.eventService.CreateTypeEvent(this.TypeFormGroup.value).subscribe({
+        next: () => {
+          this.TypeFormGroup.reset();
+          // this.eventService.fetchTypes();
+          this.typepop = false;
+          this.router.navigate(['/evenement']);
+          this.getTypeEvent();
+        },
+      });
+    }
+    createCategory() {
+      this.eventService.CreateCat(this.CatFormGroup.value).subscribe({
+        next: () => {
+          // this.TypeFormGroup.reset();
+          // this.eventService.fetchTypes();
+
+          this.catpop = false;
+          this.router.navigate(['/evenement']);
+          this.getCat();
+        },
+      });
+      this.getCat();
+    }
+
+    getEvents() {
+      return this.eventService.getEvents().subscribe((data) => {
+        this.evenement = data;
+      });
+    }
+    
+    getLieu() {
+      return this.eventService.getLieu().subscribe((data) => {
+        this.Lieu = data;
+      });
+    }
+
+    getTypeEvent() {
+      return this.eventService.getType().subscribe((data) => {
+        this.typeEvent = data;
+      });
+    }
+
+    getCat() {
+      return this.eventService.getCat().subscribe((data) => {
+        this.CatEvent = data;
+      });
+    }
+
+    
+
+    // createEvent(event: Evenement) {
+    //   this.eventService.CreateEvent(event).subscribe({
+    //     next: (data) => {
+    //       this.evenement.push(data);
+    //       this.formGroup.reset();
+    //       this.visible = false;
+    //       this.getEvents();
+    //     },
+    //     error: (err) => {
+    //       console.error("Erreur lors de la création de l'événement:", err);
+    //     },
+    //   });
+    //   this.visible = false;
+    //   this.getEvents();
+    // }
+
+    updateEvent(): void {
+      if (this.currentEvenId !== null) {
+        const updatedEvent: Evenement = this.formGroup.value;
+        // updatedUser.role = { id: this.utilisateurForm.value.roleId } as Role; // Map roleId to role object
+        this.eventService.UpdateEvent(this.currentEvenId, updatedEvent)
+          .subscribe(
+            (data) => {
+              const index = this.evenement.findIndex(
+                (u) => u.id === this.currentEvenId
+              );
+              if (index !== -1) {
+                this.evenement[index] = data;
+                // this.filteredUtilisateurs[index] = data; // Mettez à jour aussi la liste filtrée
+              }
+              this.formGroup.reset();
+              this.edit = false;
+              this.currentEvenId = null;
+            },
+            (error) => console.error(error)
+          );
+      }
+      this.visible = false;
+      // this.getEvents();
+    }
+
+    editEvent(evenement: Evenement): void {
+      this.edit = true;
+      this.currentEvenId = evenement.id !== undefined ? evenement.id : null;
+      this.formGroup.patchValue({
+        ...evenement,
+      });
+    }
+
+    deleteUser(id: number): void {
+      Swal.fire({
+        title: 'Êtes-vous sûr?',
+        text: 'Vous ne pourrez pas annuler cette action!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui, supprimez-le!',
+        cancelButtonText: 'Annuler',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.eventService.DeleteEvent(id).subscribe(
+            () => {
+              this.evenement = this.evenement.filter((u) => u.id !== id);
+              this.getEvents();
+              // Mettez à jour aussi la liste filtrée
+              Swal.fire(
+                'Supprimé!',
+                "L'utilisateur a été supprimé.",
+                'success'
+              );
+              this.getEvents();
+            },
+            (error) => {
+              console.error(error);
+              Swal.fire(
+                'Supprimer avec succes!',
+                "L'utilisateur a été supprimé.",
+                'success'
+              );
+            }
+          );
+          // this.getEvents();
+        }
+        // this.getEvents();
+      });
+      this.getEvents();
+    }
+
+    // deleteUser(id: number): void {
+    //   this.eventService.DeleteEvent(id).subscribe(
+    //     () => {
+    //       this.evenement = this.evenement.filter((u) => u.id !== id);
+
+    //     },
+    //     (error) => console.error(error)
+    //   );
+    // }
+
+    // createEvent() {
+    //   if (this.formGroup.invalid) {
+    //     this.messageservice.add({
+    //       severity: 'error',
+    //       summary: 'Error',
+    //       detail: 'Vérifiez tous les champs',
+    //     });
+    //     this.router.navigateByUrl('/evenement');
+    //     return;
+    //   }
+
+    //   const eventData = this.prepareEventData(this.formGroup.value);
+    //   this.isSaveInProgress = true;
+    //   this.eventService.CreateEvent(eventData).subscribe({
+    //     next: () => {
+    //       this.isSaveInProgress = false;
+    //       this.router.navigateByUrl('/evenement');
+    //     },
+    //   });
+    // }
+
+    // updateEvent() {
+    //   if (this.formGroup.invalid) {
+    //     this.messageservice.add({
+    //       severity: 'error',
+    //       summary: 'Error',
+    //       detail: 'Remplissez tous les champs',
+    //     });
+    //     return;
+    //   }
+
+    //   const eventData = this.prepareEventData(this.formGroup.value);
+    //   this.isSaveInProgress = true;
+    //   this.eventService.UpdateEvent(eventData).subscribe({
+    //     next: () => {
+    //       this.messageservice.add({
+    //         severity: 'success',
+    //         summary: 'Succès',
+    //         detail: 'Événement mis à jour avec succès',
+    //       });
+    //       this.isSaveInProgress = false;
+    //     },
+    //     error: () => {
+    //       this.isSaveInProgress = false;
+    //       this.messageservice.add({
+    //         severity: 'error',
+    //         summary: 'Erreur',
+    //         detail: "Erreur lors de la mise à jour de l'événement",
+    //       });
+    //     },
+    //   });
+    // }
+
+    // prepareEventData(formData: any) {
+    //   const { typeevent, category, utilisateur, ...rest } = formData;
+    //   return {
+    //     ...rest,
+    //     typeevent: { id: typeevent.id },
+    //     // users_id: { users_id: 1 },
+    //     category: { id: category.id },
+    //   };
+    // }
+
+    catpopup() {
+      this.typepop = false;
+      this.catpop = !this.catpop;
+    }
+
+    typepopup() {
+      this.catpop = false;
+      this.typepop = !this.typepop;
+    }
+
+    afficher() {
+      this.visible = true;
+    }
+
+    cacher() {
+      this.visible = false;
+    }
+    ASup() {
+      this.sup = true;
+    }
+
+    CSup() {
+      this.sup = false;
+    }
+  }
